@@ -33,3 +33,18 @@
 ### Next steps
 - Prepare the local Kubernetes cluster.
 - Record installation commands and selected versions.
+
+## 2026-10-26 — First application deployment
+- Deployed WordPress and MySQL using k8s/stack.yaml.
+- WordPress image contains PHP 8.3.36; image digest is pinned.
+- Credentials are stored locally in .local/ and supplied through a Secret.
+- WordPress initially returned HTTP 500 and failed its startup probe.
+- PHP connection test returned MySQL error 1045.
+- Administrator query confirmed that the wordpress database user was absent.
+- Created the database if missing, the wordpress user and database permissions.
+- WordPress rollout then completed successfully.
+- Completed web installation and logged into the dashboard.
+- Published "Kiratech persistence test" with text and an uploaded image.
+- Verified that both are visible on the public post.
+- Pending: investigate why initial MySQL setup did not create the user.
+- Pending: verify persistence after Pod replacement and clean installation.
