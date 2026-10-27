@@ -1,0 +1,15 @@
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/wordpress         1/1     1            1           18m
+deployment.apps/wordpress-mysql   1/1     1            1           71m
+
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/wordpress-6656c7d6b6-v7gbz         1/1     Running   0          18m
+pod/wordpress-mysql-64bf7fbb89-jvwrf   1/1     Running   0          71m
+
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/wordpress         ClusterIP   10.98.21.41      <none>        80/TCP     18m
+service/wordpress-mysql   ClusterIP   10.107.143.145   <none>        3306/TCP   71m
+
+NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/mysql-data          Bound    pvc-d6e48052-3fce-41f1-be23-ef6f229ca8c5   2Gi        RWO            standard       <unset>                 71m
+persistentvolumeclaim/wordpress-content   Bound    pvc-3bbf0eae-b279-41be-9dac-85989252b227   2Gi        RWO            standard       <unset>                 18m
