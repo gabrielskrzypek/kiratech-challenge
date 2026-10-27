@@ -1,0 +1,7 @@
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/wordpress-8654c59f54-blqn9         1/1     Running   0          32m
+pod/wordpress-mysql-64bf7fbb89-h6j29   1/1     Running   0          32m
+
+NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/mysql-data          Bound    pvc-4aff4ad9-af02-4b43-84a7-398f911a904b   2Gi        RWO            standard       <unset>                 32m
+persistentvolumeclaim/wordpress-content   Bound    pvc-f853a3df-e7c1-494c-aa26-b5cb6eb9635d   2Gi        RWO            standard       <unset>                 32m
