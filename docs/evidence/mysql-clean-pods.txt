@@ -1,0 +1,2 @@
+NAME                               READY   STATUS    RESTARTS   AGE
+wordpress-mysql-64bf7fbb89-jvwrf   1/1     Running   0          3m43s
