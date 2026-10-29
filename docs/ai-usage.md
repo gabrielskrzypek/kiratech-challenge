@@ -74,7 +74,7 @@ configuration choice or security property is correct.
   or prove that all vulnerabilities were eliminated.
 - Backup files were created and checked, but restoration was not tested.
 - The Krateo integration remains conceptual and was not executed.
-- A complete installation from a fresh checkout remains to be validated.
+- Installation and removal from a clean checkout were verified using existing images and the existing cluster; a full rebuild and replay of all labs were not performed.
 - Formatting problems in copied files were corrected and checked with Git.
 
 ## Handling sensitive information

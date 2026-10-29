@@ -1,0 +1,15 @@
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/validation-mysql       1/1     1            1           37s
+deployment.apps/validation-wordpress   1/1     1            1           37s
+
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/validation-mysql-77f8bcf767-fr275       1/1     Running   0          37s
+pod/validation-wordpress-6756ddf7c6-dfzks   1/1     Running   0          37s
+
+NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/validation-mysql       ClusterIP   10.100.2.18     <none>        3306/TCP   37s
+service/validation-wordpress   ClusterIP   10.97.226.213   <none>        80/TCP     37s
+
+NAME                                          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/validation-content      Bound    pvc-8149b0ec-d6d8-4fd9-baac-1e7048916d84   2Gi        RWO            standard       <unset>                 37s
+persistentvolumeclaim/validation-mysql-data   Bound    pvc-c1cde29d-2f78-4d9d-95c0-6f4752aa547a   2Gi        RWO            standard       <unset>                 37s

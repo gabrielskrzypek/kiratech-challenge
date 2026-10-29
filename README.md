@@ -56,6 +56,7 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | Architecture and diagram | [docs/architecture.md](docs/architecture.md) |
 | Krateo proposal | [docs/krateo-proposal.md](docs/krateo-proposal.md) |
 | AI usage and verification | [docs/ai-usage.md](docs/ai-usage.md) |
+| Clean-checkout installation and removal | [docs/fresh-checkout-test.md](docs/fresh-checkout-test.md) |
 | Fresh installation | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistence | [docs/persistence-test.md](docs/persistence-test.md) |
 | Published-image security update | [labs/security/README.md](labs/security/README.md) |
@@ -91,7 +92,7 @@ For the custom-image Helm lab, in a separate terminal:
 Open http://localhost:8083; administration is at http://localhost:8083/wp-admin/.
 At the last verification, this release used the custom PHP 8.3.36 image.
 
-These commands resume existing installations. The [custom-image lab guide](labs/security-build/README.md) contains build, fresh-installation, backup, upgrade, verification and removal instructions. A full replay from a fresh checkout remains pending; do not rerun credential initialization against an existing database.
+These commands resume existing installations. The [custom-image lab guide](labs/security-build/README.md) contains build, fresh-installation, backup, upgrade, verification and removal instructions. Installation and removal from a clean checkout were verified using existing images (see [test report](docs/fresh-checkout-test.md)); do not rerun credential initialization against an existing database.
 
 ## Credentials and data
 
@@ -109,7 +110,7 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 - The reviewed post-update log in the published-image lab is a 60-line sample.
 - The update does not guarantee the absence of other vulnerabilities.
 - The additional PHP advisory of 23 October remains a follow-up item.
-- The complete project has not yet been verified from a fresh Git checkout.
+- Clean-checkout installation and removal were verified using existing images and the existing cluster. A full rebuild and replay of all labs were not performed.
 - Custom-image builds use pinned bases, but external package downloads prevent a claim of bit-for-bit reproducibility.
 - The custom-image lab records a formatting-only LF normalization made after its deployment tests.
 
@@ -117,7 +118,6 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 
 - Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
 - Consolidate project-wide installation, verification and removal instructions; the custom-image lab procedure is already documented.
-- Validation from a fresh Git checkout.
 - Repository sharing and technical demonstration rehearsal.
 
 ## AI assistance

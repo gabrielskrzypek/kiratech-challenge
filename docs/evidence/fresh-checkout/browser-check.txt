@@ -1,0 +1,6 @@
+Manual browser verification reported successful by the candidate:
+- Completed WordPress installation in English.
+- Logged into the Dashboard.
+- Published "Fresh checkout verification" with text and an uploaded image.
+- Confirmed that the public article displayed the text and image.
+- Checked PHP 8.3.36 in Tools > Site Health > Info > Server.

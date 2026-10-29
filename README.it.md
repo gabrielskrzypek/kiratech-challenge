@@ -56,6 +56,7 @@ Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 | Architettura e diagramma | [docs/architecture.md](docs/architecture.md) |
 | Proposta Krateo | [docs/krateo-proposal.md](docs/krateo-proposal.md) |
 | Utilizzo dell'IA e verifiche | [docs/ai-usage.md](docs/ai-usage.md) |
+| Installazione e rimozione da checkout pulito | [docs/fresh-checkout-test.md](docs/fresh-checkout-test.md) |
 | Installazione nuova | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistenza | [docs/persistence-test.md](docs/persistence-test.md) |
 | Aggiornamento con immagini pubblicate | [labs/security/README.md](labs/security/README.md) |
@@ -91,7 +92,7 @@ Per il laboratorio Helm con immagini personalizzate, in un terminale separato:
 Aprire http://localhost:8083; l'amministrazione è su http://localhost:8083/wp-admin/.
 All'ultima verifica, questa release usava l'immagine personalizzata con PHP 8.3.36.
 
-Questi comandi riprendono installazioni esistenti. La [guida del laboratorio personalizzato](labs/security-build/README.md) contiene istruzioni di build, installazione da zero, backup, aggiornamento, verifica e rimozione. Resta da verificare la procedura completa da un checkout pulito; non ripetere l'inizializzazione delle credenziali su un database esistente.
+Questi comandi riprendono installazioni esistenti. La [guida del laboratorio personalizzato](labs/security-build/README.md) contiene istruzioni di build, installazione da zero, backup, aggiornamento, verifica e rimozione. Installazione e rimozione da un checkout pulito sono state verificate riutilizzando le immagini esistenti (vedi [rapporto](docs/fresh-checkout-test.md)); non ripetere l'inizializzazione delle credenziali su un database esistente.
 
 ## Credenziali e dati
 
@@ -109,7 +110,7 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 - Il log post-aggiornamento esaminato nel laboratorio con immagini pubblicate è un campione di 60 righe.
 - L'aggiornamento non garantisce l'assenza di altre vulnerabilità.
 - L'advisory PHP complementare del 23 ottobre resta un approfondimento pendente.
-- Il progetto completo non è ancora stato verificato da un checkout Git pulito.
+- Installazione e rimozione da checkout pulito verificate usando immagini e cluster esistenti. Non sono stati ripetuti la build delle immagini e tutti i laboratori.
 - Le build personalizzate usano basi fissate tramite digest, ma i download esterni dei pacchetti impediscono di dichiarare una riproducibilità identica byte per byte.
 - Il laboratorio personalizzato documenta una normalizzazione del formato LF eseguita dopo le prove di deployment.
 
@@ -117,7 +118,6 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 
 - Revisione finale e prova del runbook L2 con i due scenari operativi documentati.
 - Consolidare le istruzioni generali di installazione, verifica e rimozione; la procedura del laboratorio personalizzato è già documentata.
-- Validazione da un checkout Git pulito.
 - Condivisione del repository e prova della dimostrazione tecnica.
 
 ## Utilizzo dell'IA
