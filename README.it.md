@@ -66,6 +66,12 @@ Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 | Diario di lavoro | [docs/work-log.md](docs/work-log.md) |
 | Riferimenti upstream | [docs/sources.md](docs/sources.md) |
 
+## Installazione da zero
+
+Iniziare dalla [guida di installazione e delivery](docs/delivery-workflow.md).
+Il documento rimanda alla procedura completa del laboratorio e distingue
+il flusso manuale eseguito dalla pipeline CI/CD proposta.
+
 ## Riprendere l'installazione esistente
 
 Avviare Docker Desktop e verificare l'accesso a Docker da Ubuntu.
@@ -117,7 +123,6 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 ## Attività prima della consegna finale
 
 - Revisione finale e prova del runbook L2 con i due scenari operativi documentati.
-- Consolidare le istruzioni generali di installazione, verifica e rimozione; la procedura del laboratorio personalizzato è già documentata.
 - Condivisione del repository e prova della dimostrazione tecnica.
 
 ## Utilizzo dell'IA

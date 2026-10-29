@@ -66,6 +66,12 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | Work history | [docs/work-log.md](docs/work-log.md) |
 | Upstream references | [docs/sources.md](docs/sources.md) |
 
+## Installation from scratch
+
+Start with [installation and delivery workflow](docs/delivery-workflow.md).
+It links the complete lab procedure and distinguishes the manual workflow
+from the proposed CI/CD pipeline.
+
 ## Resume the existing installation
 
 Start Docker Desktop and verify Docker access from Ubuntu.
@@ -117,7 +123,6 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 ## Remaining work before final submission
 
 - Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
-- Consolidate project-wide installation, verification and removal instructions; the custom-image lab procedure is already documented.
 - Repository sharing and technical demonstration rehearsal.
 
 ## AI assistance
