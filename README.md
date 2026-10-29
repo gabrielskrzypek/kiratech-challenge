@@ -51,6 +51,8 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | Main manifest | [k8s/stack.yaml](k8s/stack.yaml) |
 | Helm chart | [charts/kiratech-wordpress/](charts/kiratech-wordpress/) |
 | MySQL incident | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
+| Missing-image incident | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
+| L2 runbook | [docs/runbook.md](docs/runbook.md) |
 | Fresh installation | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistence | [docs/persistence-test.md](docs/persistence-test.md) |
 | Published-image security update | [labs/security/README.md](labs/security/README.md) |
@@ -100,7 +102,7 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 ## Verification limits
 
 - No exploit was executed and remote code execution was not demonstrated.
-- Backup restoration and rollback were not tested.
+- Backup restoration was not tested. In the missing-image case, rollback restored Kubernetes resources but Helm reported failure; a subsequent upgrade completed recovery.
 - The reviewed post-update log in the published-image lab is a 60-line sample.
 - The update does not guarantee the absence of other vulnerabilities.
 - The additional PHP advisory of 23 October remains a follow-up item.
@@ -110,7 +112,7 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 
 ## Remaining work before final submission
 
-- Second operational troubleshooting scenario and final runbook.
+- Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
 - Consolidate project-wide installation, verification and removal instructions; the custom-image lab procedure is already documented.
 - Validation from a fresh Git checkout.
 - Architecture diagram.

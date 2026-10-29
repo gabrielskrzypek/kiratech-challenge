@@ -51,6 +51,8 @@ Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 | Manifest principale | [k8s/stack.yaml](k8s/stack.yaml) |
 | Chart Helm | [charts/kiratech-wordpress/](charts/kiratech-wordpress/) |
 | Incidente MySQL | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
+| Incidente immagine non disponibile | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
+| Runbook L2 | [docs/runbook.md](docs/runbook.md) |
 | Installazione nuova | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistenza | [docs/persistence-test.md](docs/persistence-test.md) |
 | Aggiornamento con immagini pubblicate | [labs/security/README.md](labs/security/README.md) |
@@ -100,7 +102,7 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 ## Limiti delle verifiche
 
 - Nessun exploit eseguito e nessuna esecuzione remota di codice dimostrata.
-- Ripristino dei backup e rollback non testati.
+- Ripristino dei backup non testato. Nel caso dell'immagine non disponibile, il rollback ha ripristinato le risorse Kubernetes ma Helm ha segnalato un errore; un successivo upgrade ha completato il recupero.
 - Il log post-aggiornamento esaminato nel laboratorio con immagini pubblicate è un campione di 60 righe.
 - L'aggiornamento non garantisce l'assenza di altre vulnerabilità.
 - L'advisory PHP complementare del 23 ottobre resta un approfondimento pendente.
@@ -110,7 +112,7 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 
 ## Attività prima della consegna finale
 
-- Secondo scenario operativo di troubleshooting e runbook finale.
+- Revisione finale e prova del runbook L2 con i due scenari operativi documentati.
 - Consolidare le istruzioni generali di installazione, verifica e rimozione; la procedura del laboratorio personalizzato è già documentata.
 - Validazione da un checkout Git pulito.
 - Diagramma dell'architettura.

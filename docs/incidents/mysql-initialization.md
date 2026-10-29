@@ -59,6 +59,6 @@ Before rebuilding a database containing valuable data, create and verify a backu
 - ../evidence/mysql-init-clean.log
 - ../evidence/mysql-clean-pods.txt
 
-## Remaining checks
-- Complete fresh WordPress installation using corrected credentials.
-- Verify application data persistence after Pod replacement.
+## Completed follow-up checks
+- Fresh WordPress installation with corrected credentials: see ../clean-install-test.md.
+- Application data persistence across Pod replacement: see ../persistence-test.md.
