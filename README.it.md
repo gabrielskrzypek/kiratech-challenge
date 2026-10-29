@@ -53,6 +53,7 @@ Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 | Incidente MySQL | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
 | Incidente immagine non disponibile | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
 | Runbook L2 | [docs/runbook.md](docs/runbook.md) |
+| Architettura e diagramma | [docs/architecture.md](docs/architecture.md) |
 | Installazione nuova | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistenza | [docs/persistence-test.md](docs/persistence-test.md) |
 | Aggiornamento con immagini pubblicate | [labs/security/README.md](labs/security/README.md) |
@@ -115,7 +116,6 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 - Revisione finale e prova del runbook L2 con i due scenari operativi documentati.
 - Consolidare le istruzioni generali di installazione, verifica e rimozione; la procedura del laboratorio personalizzato è già documentata.
 - Validazione da un checkout Git pulito.
-- Diagramma dell'architettura.
 - Proposta concettuale Krateo.
 - Registro complessivo dell'utilizzo dell'IA e delle verifiche manuali.
 - Condivisione del repository e prova della dimostrazione tecnica.

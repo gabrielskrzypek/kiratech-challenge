@@ -53,6 +53,7 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | MySQL incident | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
 | Missing-image incident | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
 | L2 runbook | [docs/runbook.md](docs/runbook.md) |
+| Architecture and diagram | [docs/architecture.md](docs/architecture.md) |
 | Fresh installation | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistence | [docs/persistence-test.md](docs/persistence-test.md) |
 | Published-image security update | [labs/security/README.md](labs/security/README.md) |
@@ -115,7 +116,6 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 - Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
 - Consolidate project-wide installation, verification and removal instructions; the custom-image lab procedure is already documented.
 - Validation from a fresh Git checkout.
-- Architecture diagram.
 - Conceptual Krateo proposal.
 - Consolidated AI usage and manual-verification record.
 - Repository sharing and technical demonstration rehearsal.
