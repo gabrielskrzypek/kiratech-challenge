@@ -1,0 +1,7 @@
+NAME                                       READY   STATUS    RESTARTS      AGE
+pod/patch-lab-mysql-8487859c47-pfqhr       1/1     Running   2 (23m ago)   23h
+pod/patch-lab-wordpress-5d6f85dc6d-2dmmc   1/1     Running   2 (23m ago)   23h
+
+NAME                                         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/patch-lab-content      Bound    pvc-7adad68f-b89f-44d9-bf71-b75371989305   2Gi        RWO            standard       <unset>                 23h
+persistentvolumeclaim/patch-lab-mysql-data   Bound    pvc-b598d5d2-07bc-498c-b4a3-849aa7f85352   2Gi        RWO            standard       <unset>                 23h
