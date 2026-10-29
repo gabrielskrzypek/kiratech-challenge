@@ -1,0 +1,11 @@
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/image-lab-mysql       1/1     1            1           2m43s
+deployment.apps/image-lab-wordpress   1/1     1            1           2m43s
+
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/image-lab-mysql-64cc89f8c9-x6mt8      1/1     Running   0          2m43s
+pod/image-lab-wordpress-b7776b57b-tqbzn   1/1     Running   0          2m43s
+
+NAME                                         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/image-lab-content      Bound    pvc-550b5254-853d-4f15-8148-3a4554b7e530   2Gi        RWO            standard       <unset>                 2m43s
+persistentvolumeclaim/image-lab-mysql-data   Bound    pvc-2648320d-64ae-4482-a867-427a58149bd8   2Gi        RWO            standard       <unset>                 2m43s

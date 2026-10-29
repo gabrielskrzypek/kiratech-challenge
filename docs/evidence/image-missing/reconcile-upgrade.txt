@@ -1,0 +1,8 @@
+Release "image-lab" has been upgraded. Happy Helming!
+NAME: image-lab
+LAST DEPLOYED: Thu Oct 29 16:26:38 2026
+NAMESPACE: wordpress-troubleshooting
+STATUS: deployed
+REVISION: 4
+DESCRIPTION: Upgrade complete
+TEST SUITE: None

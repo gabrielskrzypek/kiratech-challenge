@@ -1,0 +1,3 @@
+REVISION	UPDATED                 	STATUS  	CHART                   	APP VERSION	DESCRIPTION
+1       	Thu Oct 29 15:09:13 2026	deployed	kiratech-wordpress-0.1.0	7.1.3      	Install complete
+2       	Thu Oct 29 15:13:01 2026	failed  	kiratech-wordpress-0.1.0	7.1.3      	Upgrade "image-lab" failed: resource Deployment/wordpress-troubleshooting/image-lab-wordpress not ready. status: InProgress, message: Available: ...

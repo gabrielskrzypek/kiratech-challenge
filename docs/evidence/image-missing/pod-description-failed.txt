@@ -1,0 +1,73 @@
+Name:             image-lab-wordpress-dd49467d9-l898h
+Namespace:        wordpress-troubleshooting
+Priority:         0
+Service Account:  default
+Node:             kiratech/192.168.49.2
+Start Time:       Thu, 29 Oct 2026 15:13:02 +0100
+Labels:           app=wordpress
+                  app.kubernetes.io/instance=image-lab
+                  pod-template-hash=dd49467d9
+                  tier=frontend
+Annotations:      <none>
+Status:           Pending
+IP:               10.244.0.15
+IPs:
+  IP:           10.244.0.15
+Controlled By:  ReplicaSet/image-lab-wordpress-dd49467d9
+Containers:
+  wordpress:
+    Container ID:
+    Image:          kiratech-wordpress:7.1.3-php8.3.36-typo-lab
+    Image ID:
+    Port:           80/TCP (http)
+    Host Port:      0/TCP (http)
+    State:          Waiting
+      Reason:       ErrImageNeverPull
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   tcp-socket :http delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  http-get http://:http/wp-login.php delay=0s timeout=1s period=5s #success=1 #failure=3
+    Startup:    http-get http://:http/wp-login.php delay=0s timeout=1s period=5s #success=1 #failure=60
+    Environment:
+      WORDPRESS_CONFIG_EXTRA:  define('AUTOMATIC_UPDATER_DISABLED', true);
+      WORDPRESS_DB_HOST:       <set to the key 'host' of config map 'image-lab-config'>      Optional: false
+      WORDPRESS_DB_NAME:       <set to the key 'database' of config map 'image-lab-config'>  Optional: false
+      WORDPRESS_DB_USER:       <set to the key 'username' of config map 'image-lab-config'>  Optional: false
+      WORDPRESS_DB_PASSWORD:   <set to the key 'password' in secret 'mysql-credentials'>     Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rzsmc (ro)
+      /var/www/html/wp-content from content (rw)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  content:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  image-lab-content
+    ReadOnly:   false
+  kube-api-access-rzsmc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason             Age                  From               Message
+  ----     ------             ----                 ----               -------
+  Normal   Scheduled          51m                  default-scheduler  Successfully assigned wordpress-troubleshooting/image-lab-wordpress-dd49467d9-l898h to kiratech
+  Warning  Failed             49m (x12 over 51m)   kubelet            spec.containers{wordpress}: Error: ErrImageNeverPull
+  Warning  ErrImageNeverPull  92s (x233 over 51m)  kubelet            spec.containers{wordpress}: Container image "kiratech-wordpress:7.1.3-php8.3.36-typo-lab" is not present with pull policy of Never

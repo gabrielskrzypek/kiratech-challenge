@@ -1,0 +1,56 @@
+Name:               image-lab-wordpress
+Namespace:          wordpress-troubleshooting
+CreationTimestamp:  Thu, 29 Oct 2026 15:09:13 +0100
+Labels:             app.kubernetes.io/managed-by=Helm
+Annotations:        deployment.kubernetes.io/revision: 3
+                    meta.helm.sh/release-name: image-lab
+                    meta.helm.sh/release-namespace: wordpress-troubleshooting
+Selector:           app=wordpress,app.kubernetes.io/instance=image-lab,tier=frontend
+Replicas:           1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    0
+Pod Template:
+  Labels:  app=wordpress
+           app.kubernetes.io/instance=image-lab
+           tier=frontend
+  Containers:
+   wordpress:
+    Image:      kiratech-wordpress:7.1.3-php8.3.36-lab
+    Port:       80/TCP (http)
+    Host Port:  0/TCP (http)
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   tcp-socket :http delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  http-get http://:http/wp-login.php delay=0s timeout=1s period=5s #success=1 #failure=3
+    Startup:    http-get http://:http/wp-login.php delay=0s timeout=1s period=5s #success=1 #failure=60
+    Environment:
+      WORDPRESS_CONFIG_EXTRA:  define('AUTOMATIC_UPDATER_DISABLED', true);
+      WORDPRESS_DB_HOST:       <set to the key 'host' of config map 'image-lab-config'>      Optional: false
+      WORDPRESS_DB_NAME:       <set to the key 'database' of config map 'image-lab-config'>  Optional: false
+      WORDPRESS_DB_USER:       <set to the key 'username' of config map 'image-lab-config'>  Optional: false
+      WORDPRESS_DB_PASSWORD:   <set to the key 'password' in secret 'mysql-credentials'>     Optional: false
+    Mounts:
+      /var/www/html/wp-content from content (rw)
+  Volumes:
+   content:
+    Type:          PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:     image-lab-content
+    ReadOnly:      false
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  image-lab-wordpress-dd49467d9 (0/0 replicas created)
+NewReplicaSet:   image-lab-wordpress-b7776b57b (1/1 replicas created)
+Events:
+  Type    Reason             Age                 From                   Message
+  ----    ------             ----                ----                   -------
+  Normal  ScalingReplicaSet  100s (x2 over 75m)  deployment-controller  Scaled up replica set image-lab-wordpress-b7776b57b from 0 to 1
+  Normal  ScalingReplicaSet  100s                deployment-controller  Scaled down replica set image-lab-wordpress-dd49467d9 from 1 to 0

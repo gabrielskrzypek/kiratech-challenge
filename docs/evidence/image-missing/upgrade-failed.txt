@@ -1,0 +1,3 @@
+level=WARN msg="upgrade failed" name=image-lab error="resource Deployment/wordpress-troubleshooting/image-lab-wordpress not ready. status: InProgress, message: Available: 0/1\ncontext deadline exceeded"
+Error: UPGRADE FAILED: resource Deployment/wordpress-troubleshooting/image-lab-wordpress not ready. status: InProgress, message: Available: 0/1
+context deadline exceeded
