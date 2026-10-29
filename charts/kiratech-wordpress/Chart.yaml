@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kiratech-wordpress
+description: WordPress and MySQL for the Kiratech challenge
+type: application
+version: 0.1.0
+appVersion: "7.1.3"

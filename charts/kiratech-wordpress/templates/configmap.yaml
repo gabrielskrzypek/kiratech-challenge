@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace | quote }}
+data:
+  database: {{ .Values.database.name | quote }}
+  username: {{ .Values.database.username | quote }}
+  host: {{ .Release.Name }}-mysql
