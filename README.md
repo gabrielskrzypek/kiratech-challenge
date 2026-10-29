@@ -54,6 +54,8 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | Missing-image incident | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
 | L2 runbook | [docs/runbook.md](docs/runbook.md) |
 | Architecture and diagram | [docs/architecture.md](docs/architecture.md) |
+| Krateo proposal | [docs/krateo-proposal.md](docs/krateo-proposal.md) |
+| AI usage and verification | [docs/ai-usage.md](docs/ai-usage.md) |
 | Fresh installation | [docs/clean-install-test.md](docs/clean-install-test.md) |
 | Persistence | [docs/persistence-test.md](docs/persistence-test.md) |
 | Published-image security update | [labs/security/README.md](labs/security/README.md) |
@@ -116,15 +118,13 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 - Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
 - Consolidate project-wide installation, verification and removal instructions; the custom-image lab procedure is already documented.
 - Validation from a fresh Git checkout.
-- Conceptual Krateo proposal.
-- Consolidated AI usage and manual-verification record.
 - Repository sharing and technical demonstration rehearsal.
 
 ## AI assistance
 
 AI supported explanations, source analysis, Dockerfile adaptation, manifest and Helm-chart preparation, diagnostic commands and documentation. Commands were executed manually and conclusions were checked using actual output and official advisories.
 
-Unexecuted activities are not presented as tested. The consolidated record is still pending; the MySQL incident and security-lab documents already describe specific results and limitations.
+See [AI usage and manual verification](docs/ai-usage.md) for the assistance received, checks performed and remaining limitations. Unexecuted activities are not presented as tested.
 
 ## Software origin
 
