@@ -1,0 +1,1 @@
+{"app":"wordpress","app.kubernetes.io/instance":"ingress-lab","tier":"frontend-typo"}

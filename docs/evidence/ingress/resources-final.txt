@@ -1,0 +1,18 @@
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-lab-mysql       1/1     1            1           3h48m
+deployment.apps/ingress-lab-wordpress   1/1     1            1           3h48m
+
+NAME                                        READY   STATUS    RESTARTS      AGE
+pod/ingress-lab-mysql-7d75f4cbc5-l9wl6      1/1     Running   1 (94m ago)   3h48m
+pod/ingress-lab-wordpress-b865cbc98-h78r7   1/1     Running   1 (94m ago)   3h8m
+
+NAME                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/ingress-lab-mysql       ClusterIP   10.96.117.167   <none>        3306/TCP   3h48m
+service/ingress-lab-wordpress   ClusterIP   10.109.146.2    <none>        80/TCP     3h48m
+
+NAME                                           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/ingress-lab-content      Bound    pvc-5f4606b5-7765-4381-9e85-548b02a9656a   2Gi        RWO            standard       <unset>                 3h48m
+persistentvolumeclaim/ingress-lab-mysql-data   Bound    pvc-1b2cb27e-03bf-4765-abad-1d8b2544d7a9   2Gi        RWO            standard       <unset>                 3h48m
+
+NAME                                              CLASS     HOSTS                ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/ingress-lab-wordpress   traefik   wordpress.lab.test             80      3h48m

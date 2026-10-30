@@ -1,0 +1,8 @@
+Release "ingress-lab" has been upgraded. Happy Helming!
+NAME: ingress-lab
+LAST DEPLOYED: Fri Oct 30 16:40:39 2026
+NAMESPACE: wordpress-ingress
+STATUS: deployed
+REVISION: 4
+DESCRIPTION: Upgrade complete
+TEST SUITE: None

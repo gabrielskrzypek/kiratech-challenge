@@ -1,0 +1,11 @@
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-lab-mysql       1/1     1            1           3h13m
+deployment.apps/ingress-lab-wordpress   1/1     1            1           3h13m
+
+NAME                                        READY   STATUS    RESTARTS      AGE
+pod/ingress-lab-mysql-7d75f4cbc5-l9wl6      1/1     Running   1 (60m ago)   3h13m
+pod/ingress-lab-wordpress-b865cbc98-h78r7   1/1     Running   1 (60m ago)   153m
+
+NAME                                           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/ingress-lab-content      Bound    pvc-5f4606b5-7765-4381-9e85-548b02a9656a   2Gi        RWO            standard       <unset>                 3h13m
+persistentvolumeclaim/ingress-lab-mysql-data   Bound    pvc-1b2cb27e-03bf-4765-abad-1d8b2544d7a9   2Gi        RWO            standard       <unset>                 3h13m

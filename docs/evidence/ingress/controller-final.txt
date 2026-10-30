@@ -1,0 +1,8 @@
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/traefik   1/1     1            1           4h34m
+
+NAME                           READY   STATUS    RESTARTS      AGE
+pod/traefik-5c5f94d896-z6djf   1/1     Running   1 (94m ago)   4h34m
+
+NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/traefik   ClusterIP   10.101.198.49   <none>        80/TCP,443/TCP   4h34m

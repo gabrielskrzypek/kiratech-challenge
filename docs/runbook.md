@@ -221,3 +221,23 @@ Evidence:
 
 Local storage and single replicas do not provide high availability.
 PVC persistence is not a backup; backup restoration remains untested.
+
+## Additional scenario: Ready application, Ingress HTTP 503
+
+Scope: ingress-lab release in wordpress-ingress, Traefik in ingress-system.
+
+1. Confirm the HTTP failure through the configured hostname.
+2. Inspect Pod readiness and labels.
+3. Compare the application Service selector with those labels.
+4. Inspect EndpointSlice addresses and readiness.
+5. Test HTTP inside the application Pod using the expected Host header.
+6. Inspect the Ingress backend reference and controller logs.
+7. If the selector is wrong, restore the value declared in the chart.
+8. Wait for endpoint discovery, then verify HTTP and application content.
+
+In the reproduced case, frontend-typo matched no Pods. The application
+remained Ready and answered HTTP 200 directly; Ingress returned 503.
+Restoring frontend recovered access without restarting Pods.
+
+Commands, evidence and escalation guidance are in the
+[Ingress lab guide](../labs/ingress/README.md).

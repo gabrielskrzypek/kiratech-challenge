@@ -1,0 +1,7 @@
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-lab-mysql       1/1     1            1           40m
+deployment.apps/ingress-lab-wordpress   1/1     1            1           40m
+
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/ingress-lab-mysql-7d75f4cbc5-l9wl6      1/1     Running   0          40m
+pod/ingress-lab-wordpress-b865cbc98-h78r7   1/1     Running   0          9s

@@ -90,3 +90,28 @@ The candidate must be able to explain the deployed components, diagnostic
 decisions and limitations. AI-generated commands require review of their
 target context, namespace and effect before execution, especially when
 changing credentials, deleting resources or handling persistent data.
+
+## Ingress lab follow-up: 2026-10-30
+
+AI assisted with the optional Ingress template, Traefik values, diagnostic
+commands, smoke script and documentation. The candidate executed commands,
+configured local hostname resolution and completed WordPress installation.
+
+Manual checks confirmed:
+- Helm recovery from an interrupted pending-install operation.
+- Application availability after increasing HTTP probe timeouts.
+- HTTP 503 after a deliberate Service selector mismatch.
+- Empty backend endpoints despite a Ready application Pod.
+- Direct application HTTP 200 during the routing fault.
+- Recovery of endpoints, HTTP 200 and expected page content.
+- Unchanged application Pod identity and restart count during the fault.
+- A successful execution of the reusable smoke script.
+
+Initial AI suggestions used incorrect Traefik chart value paths.
+Chart schema validation rejected logs; inspection of chart defaults
+identified log and accessLog. The live Service revealed that service.type
+did not configure its type; service.spec.type corrected it.
+
+The smoke script was created after the fault experiment and was verified
+on the recovered application. TLS, public access and removal of this
+additional lab were not tested.

@@ -57,12 +57,14 @@ spec:
             httpGet:
               path: /wp-login.php
               port: http
+            timeoutSeconds: 5
             periodSeconds: 5
             failureThreshold: 60
           readinessProbe:
             httpGet:
               path: /wp-login.php
               port: http
+            timeoutSeconds: 5
             periodSeconds: 5
           livenessProbe:
             tcpSocket:

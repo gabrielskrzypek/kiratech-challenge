@@ -100,6 +100,16 @@ At the last verification, this release used the custom PHP 8.3.36 image.
 
 These commands resume existing installations. The [custom-image lab guide](labs/security-build/README.md) contains build, fresh-installation, backup, upgrade, verification and removal instructions. Installation and removal from a clean checkout were verified using existing images (see [test report](docs/fresh-checkout-test.md)); do not rerun credential initialization against an existing database.
 
+## Optional Ingress lab
+
+The [Ingress lab guide](labs/ingress/README.md) covers Traefik installation,
+hostname-based access and an additional routing incident.
+
+- WordPress remained Ready while an incorrect Service selector caused HTTP 503.
+- EndpointSlice inspection and direct application access isolated the fault.
+- Correcting the selector restored HTTP 200 without restarting the Pods.
+- A reusable smoke script checks HTTP status and expected application content.
+
 ## Credentials and data
 
 Credentials and backups are kept under .local/, excluded from Git.
@@ -120,10 +130,10 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 - Custom-image builds use pinned bases, but external package downloads prevent a claim of bit-for-bit reproducibility.
 - The custom-image lab records a formatting-only LF normalization made after its deployment tests.
 
-## Remaining work before final submission
+## Demonstration preparation
 
-- Final review and rehearsal of the L2 runbook and its two documented operational scenarios.
-- Repository sharing and technical demonstration rehearsal.
+- Rehearse the L2 runbook and the documented operational scenarios.
+- Prepare the technical demonstration using the published repository.
 
 ## AI assistance
 

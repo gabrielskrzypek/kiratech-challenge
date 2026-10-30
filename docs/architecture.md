@@ -144,3 +144,28 @@ backup restoration are not implemented.
 - [Persistence verification](persistence-test.md)
 - [Custom-image patch lab](../labs/security-build/README.md)
 - [Helm chart](../charts/kiratech-wordpress/)
+
+## Optional Ingress deployment
+
+The original diagram describes the wordpress-build installation.
+The additional Ingress lab uses release ingress-lab in wordpress-ingress
+and a separate Traefik controller in ingress-system.
+
+```mermaid
+flowchart TD
+    B["Browser: wordpress.lab.test:8086"] -->|Local port-forward| T["Traefik controller"]
+    I["Ingress: host and backend rule"] -.->|Configures| T
+    T -->|HTTP to discovered Pod address| W["WordPress Pod"]
+    S["WordPress Service selector"] -.->|Selects| W
+    S -.->|Defines matching backends| E["EndpointSlice"]
+    E -.->|Backend discovery| T
+```
+
+Dashed arrows describe configuration and discovery relationships.
+The EndpointSlice controller maintains backend addresses from matching
+Pods and their readiness. The application Service's ClusterIP is not
+necessarily a hop in Traefik's request path.
+
+WordPress still uses its MySQL Service, separate credential Secret and
+persistent storage. See [the lab guide](../labs/ingress/README.md) for
+configuration, verified results and local-access limitations.

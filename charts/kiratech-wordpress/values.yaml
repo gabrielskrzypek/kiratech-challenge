@@ -28,3 +28,8 @@ wordpress:
     limits:
       cpu: "1"
       memory: 512Mi
+
+ingress:
+  enabled: false
+  className: traefik
+  host: wordpress.lab.test

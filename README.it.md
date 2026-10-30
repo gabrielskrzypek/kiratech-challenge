@@ -100,6 +100,17 @@ All'ultima verifica, questa release usava l'immagine personalizzata con PHP 8.3.
 
 Questi comandi riprendono installazioni esistenti. La [guida del laboratorio personalizzato](labs/security-build/README.md) contiene istruzioni di build, installazione da zero, backup, aggiornamento, verifica e rimozione. Installazione e rimozione da un checkout pulito sono state verificate riutilizzando le immagini esistenti (vedi [rapporto](docs/fresh-checkout-test.md)); non ripetere l'inizializzazione delle credenziali su un database esistente.
 
+## Laboratorio Ingress opzionale
+
+La [guida del laboratorio Ingress](labs/ingress/README.md) descrive
+l'installazione di Traefik, l'accesso tramite hostname e un ulteriore
+incidente di instradamento.
+
+- WordPress era Ready, ma un selettore errato del Service causava HTTP 503.
+- L'ispezione degli EndpointSlice e l'accesso diretto isolavano il problema.
+- Correggere il selettore ripristinava HTTP 200 senza riavviare i Pod.
+- Uno script riutilizzabile verifica lo stato HTTP e il contenuto atteso.
+
 ## Credenziali e dati
 
 Credenziali e backup sono conservati in .local/, esclusa da Git.
@@ -120,10 +131,10 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 - Le build personalizzate usano basi fissate tramite digest, ma i download esterni dei pacchetti impediscono di dichiarare una riproducibilità identica byte per byte.
 - Il laboratorio personalizzato documenta una normalizzazione del formato LF eseguita dopo le prove di deployment.
 
-## Attività prima della consegna finale
+## Preparazione della dimostrazione
 
-- Revisione finale e prova del runbook L2 con i due scenari operativi documentati.
-- Condivisione del repository e prova della dimostrazione tecnica.
+- Provare il runbook L2 e gli scenari operativi documentati.
+- Preparare la dimostrazione tecnica usando il repository pubblicato.
 
 ## Utilizzo dell'IA
 
