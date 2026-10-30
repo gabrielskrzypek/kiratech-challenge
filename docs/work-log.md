@@ -1,5 +1,9 @@
 # Work log
 
+These are historical notes from the initial work sessions, not a current
+completion checklist. Later results and the complete reading order are in
+the [documentation map](README.md). Pending items below describe their dated state.
+
 ## 2026-10-23 — Local environment checks
 
 ### Verified environment

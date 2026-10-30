@@ -87,7 +87,9 @@ The chart was derived from the working k8s/stack.yaml resources:
 
 The namespace and credential Secret are created separately.
 
-The chart preserves the original probes and volume mounts:
+The recorded chart 0.1.0 used the original probes and volume mounts.
+Chart 0.2.0 later added optional Ingress and five-second WordPress HTTP
+probe timeouts; see [the Ingress lab](../ingress/README.md). Mounts remain:
 - MySQL data: /var/lib/mysql.
 - WordPress content: /var/www/html/wp-content.
 

@@ -26,6 +26,7 @@ Result: PASS for this fresh installation.
 - evidence/mysql-clean-pods.txt
 - evidence/clean-install-resources.txt
 
-## Remaining work
-Turn the verified procedure into complete installation instructions
-or scripts, then validate those instructions from a fresh checkout.
+## Subsequent follow-up
+Installation instructions are available through the [delivery guide](delivery-workflow.md).
+The later [clean-checkout test](fresh-checkout-test.md) verified Helm installation
+and removal with existing images and cluster; it did not replay every lab.

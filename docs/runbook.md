@@ -1,7 +1,7 @@
 # L2 support runbook — WordPress and MySQL
 
 Context: kiratech
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Scope and installations
 
@@ -11,8 +11,12 @@ Confirm the affected namespace before acting.
 | Installation | Namespace | WordPress Deployment | MySQL Deployment | Helm release |
 | --- | --- | --- | --- | --- |
 | Original manifest | wordpress | wordpress | wordpress-mysql | None |
+| Published-image security lab | wordpress-security | wordpress | wordpress-mysql | None |
 | Custom-image lab | wordpress-build | patch-lab-wordpress | patch-lab-mysql | patch-lab |
 | Missing-image incident | wordpress-troubleshooting | image-lab-wordpress | image-lab-mysql | image-lab |
+| Ingress routing lab | wordpress-ingress | ingress-lab-wordpress | ingress-lab-mysql | ingress-lab |
+
+The Ingress controller is the separate traefik release in ingress-system.
 
 The MySQL initialization incident was also reproduced in wordpress-check
 and corrected using fresh storage in wordpress-check-clean.
@@ -21,6 +25,25 @@ This runbook consolidates verified incident procedures and diagnostic
 commands. Detailed records distinguish actual observations from hypotheses.
 Some collection commands below are reusable guidance rather than additional
 tests claimed as executed.
+
+## Choose a troubleshooting case
+
+Security troubleshooting includes identifying an affected runtime, choosing
+and applying a correction, and verifying the resulting application.
+An application can serve HTTP successfully while requiring a security fix.
+The two security cases below document remediation, not demonstrated exploitation.
+
+| Case | Trigger | Procedure |
+| --- | --- | --- |
+| 1 | HTTP 500 / database authentication or initialization failure | [MySQL diagnosis](#case-1--mysql-initialization-and-authentication-failure) |
+| 2 | Affected PHP runtime; corrected published WordPress image available | [Published-image remediation](#case-2--affected-php-runtime-replace-the-published-image) |
+| 3 | Affected PHP runtime; simulate no corrected WordPress image, but a corrected base is available | [Custom build and Helm remediation](#case-3--affected-php-runtime-rebuild-the-image-and-upgrade-with-helm) |
+| 4 | ErrImageNeverPull after an image reference change | [Missing-image recovery](#case-4--incorrect-image-reference-after-helm-upgrade) |
+| 5 | Ingress HTTP 503 while WordPress remains Ready | [Service selector diagnosis](#case-5--ready-application-ingress-http-503) |
+
+Cases 2 and 3 are two remediation paths for the same assessed PHP issue.
+Full lab guides retain setup and reproduction commands; this runbook provides
+operational diagnosis, correction, validation and escalation.
 
 ## Initial checks
 
@@ -46,6 +69,8 @@ Record the symptom, start time, last change, affected resources and impact.
 | ErrImageNeverPull | Exact image reference, Never policy and node image availability |
 | Running but not Ready | Startup/readiness probes, application logs and dependencies |
 | HTTP 500 | Application/runtime logs and dependency tests; the code alone does not identify the cause |
+| Affected runtime reported | Running image, CLI/web versions, SAPI and vendor advisory applicability |
+| Ingress HTTP 503 with Ready Pods | Ingress backend, Service selector, EndpointSlices and controller logs |
 
 For a container that has started:
 
@@ -140,7 +165,139 @@ Do not delete PVCs to resolve an authentication error.
 Escalate unavailable administrator access, uncertain account repair,
 persistent initialization failures or suspected data damage.
 
-## Case 2 — Incorrect image reference after Helm upgrade
+## Case 2 — Affected PHP runtime: replace the published image
+
+Full procedure: [published-image security lab](../labs/security/README.md).
+Scope: wordpress-security; Deployment wordpress. This uses kubectl manifests.
+
+### Diagnose and choose the correction
+
+1. Record the deployed image and inspect the runtime inside the running Pod:
+
+```bash
+kubectl --context=kiratech -n wordpress-security get deployment wordpress -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+kubectl --context=kiratech -n wordpress-security exec deployment/wordpress -- php -r 'require "/var/www/html/wp-includes/version.php"; echo "WordPress: ".$wp_version.PHP_EOL."PHP CLI: ".PHP_VERSION.PHP_EOL;'
+```
+
+2. Check Tools > Site Health > Info > Server in WordPress as well. The recorded
+   CLI and web runtime were PHP 8.3.35; the web SAPI was apache2handler.
+3. Compare those versions and runtime conditions with the vendor advisories
+   linked in the lab guide. The lab assessed the fixes provided by PHP 8.3.36.
+   A running Pod or HTTP 200 does not resolve a version-based security finding.
+4. Inspect the affected/patched manifest diff. Only the container image
+   reference changes, but the replacement image also updates WordPress and
+   Apache. Updating WordPress in its Dashboard would not replace PHP.
+
+### Prepare and apply
+
+Before updating, preserve a private database dump and wp-content archive;
+record versions, Pod identities, PVC bindings and upload SHA-256 hashes.
+Use the lab guide's backup preparation and keep backups outside Git.
+The recorded dump footer and gzip integrity check passed; restoration was not tested.
+
+Apply to the existing lab after this preparation:
+
+```bash
+kubectl --context=kiratech -n wordpress-security apply -f labs/security/stack-patched.yaml
+kubectl --context=kiratech -n wordpress-security rollout status deployment/wordpress --timeout=300s
+```
+
+This replaces the WordPress Pod using Recreate and can interrupt service.
+
+### Validate and close
+
+- Repeat CLI and web-runtime checks: recorded PHP 8.3.35 -> 8.3.36.
+- Record the deployed digest; WordPress also changed 7.1.2 -> 7.1.3.
+- Confirm WordPress readiness, database access and the original post/image.
+- Compare upload hashes and PVC volume bindings; both were preserved.
+- Inspect logs. The recorded post-update review covered a 60-line sample.
+
+Evidence: [versions before](evidence/security-versions-before.txt),
+[versions after](evidence/security-versions-after.txt),
+[image before](evidence/security-image-before.txt),
+[image after](evidence/security-image-after.txt),
+[upload hashes before](evidence/security-uploads-before.txt) and
+[after](evidence/security-uploads-after.txt).
+
+### Recovery and escalation
+
+If rollout or application checks fail, collect events, logs and probe results;
+check image availability and database connectivity before further changes.
+Prefer recovering the corrected deployment. Reverting to the affected image
+reintroduces the finding and is not a completed security remediation.
+Image rollback does not restore database contents; assess data compatibility.
+Rollback and backup restoration were not executed in this security lab.
+
+Escalate unclear advisory applicability, suspected compromise, uncertain data
+integrity or the absence of a compatible correction. No exploit was executed;
+this evidence does not establish that the complete stack has no vulnerabilities.
+The separate advisory follow-up remains documented in the lab guide.
+
+## Case 3 — Affected PHP runtime: rebuild the image and upgrade with Helm
+
+Full procedure: [custom-image security lab](../labs/security-build/README.md).
+Scope: wordpress-build; release patch-lab; Deployment patch-lab-wordpress.
+
+This extends Case 2 by simulating that a corrected WordPress image is
+unavailable while a corrected PHP/Apache base is available. A published
+WordPress correction actually existed; its absence was a lab constraint.
+
+### Diagnose and build the correction
+
+1. Record the running image and PHP CLI/web versions as in Case 2, using
+   namespace wordpress-build and Deployment patch-lab-wordpress.
+2. Inspect the upstream Dockerfile and identify that PHP comes from its FROM
+   base. Compare Dockerfile.affected with Dockerfile.patched:
+
+```bash
+diff -u labs/security-build/Dockerfile.affected labs/security-build/Dockerfile.patched
+```
+
+A diff exit code of 1 is expected when showing the intended change.
+The sole Dockerfile difference is the pinned PHP/Apache base, 8.3.35 -> 8.3.36.
+Both custom images contain WordPress 7.1.3. This is a base-image correction
+and rebuild, not a manually written PHP source patch; other base components
+may change too.
+
+3. Follow the lab guide to build both image variants, inspect their versions
+   and load them into Minikube. With imagePullPolicy Never, the corrected
+   image must already exist on the node.
+4. Compare rendered manifests using the affected and patched values.
+   The recorded comparison changed only the WordPress image reference.
+5. Back up the existing database and wp-content, and record upload hashes,
+   Pod identities and PVC bindings using the lab guide before upgrading.
+
+### Apply and validate
+
+```bash
+helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values labs/security-build/values-patched.yaml --wait --timeout 5m
+kubectl --context=kiratech -n wordpress-build exec deployment/patch-lab-wordpress -- php -r 'require "/var/www/html/wp-includes/version.php"; echo "WordPress: ".$wp_version.PHP_EOL."PHP CLI: ".PHP_VERSION.PHP_EOL;'
+kubectl --context=kiratech -n wordpress-build get pods,pvc
+helm history patch-lab --kube-context kiratech -n wordpress-build
+```
+
+The recorded upgrade produced revision 2, deployed: WordPress remained
+7.1.3 and PHP changed to 8.3.36. Verify PHP in the web interface too, not just
+CLI. Reopen the article and compare uploaded-file hashes with the baseline.
+The MySQL Pod and PVC bindings were retained, and the post/image survived.
+
+Evidence: [custom-image lab evidence](evidence/security-build/).
+These results refer to the recorded chart 0.1.0 execution; later chart changes
+are described in the Ingress lab. Do not reinterpret old output as a new test.
+
+### Recovery and escalation
+
+Collect Helm status/history and live resource evidence if the upgrade fails.
+Check image loading, image reference, probes and database access. A Helm
+revision alone does not prove application or security recovery.
+
+Rollback and restoration were not tested here. Revision 1 selects the
+affected runtime; rolling back to it would reintroduce the finding and would
+not restore data. Escalate suspected compromise, incompatible dependencies,
+failed integrity checks or uncertain recovery. The same advisory and
+security-verification limits as Case 2 apply.
+
+## Case 4 — Incorrect image reference after Helm upgrade
 
 Report: [image-not-available.md](incidents/image-not-available.md)
 
@@ -198,6 +355,26 @@ bindings were retained. Full CMS installation was outside this incident test.
 Escalate unavailable authorized images, runtime/policy problems, repeated
 recovery errors or unresolved differences between Helm and live state.
 
+## Case 5 — Ready application, Ingress HTTP 503
+
+Scope: ingress-lab release in wordpress-ingress, Traefik in ingress-system.
+
+1. Confirm the HTTP failure through the configured hostname.
+2. Inspect Pod readiness and labels.
+3. Compare the application Service selector with those labels.
+4. Inspect EndpointSlice addresses and readiness.
+5. Test HTTP inside the application Pod using the expected Host header.
+6. Inspect the Ingress backend reference and controller logs.
+7. If the selector is wrong, restore the value declared in the chart.
+8. Wait for endpoint discovery, then verify HTTP and application content.
+
+In the reproduced case, frontend-typo matched no Pods. The application
+remained Ready and answered HTTP 200 directly; Ingress returned 503.
+Restoring frontend recovered access without restarting Pods.
+
+Commands, evidence and escalation guidance are in the
+[Ingress lab guide](../labs/ingress/README.md).
+
 ## Escalation package and closure
 
 Provide:
@@ -217,27 +394,10 @@ resource readiness and relevant application access. Record limitations.
 Evidence:
 - [MySQL failed initialization](evidence/mysql-init-failed.log)
 - [MySQL clean initialization](evidence/mysql-init-clean.log)
+- [Published-image remediation](../labs/security/README.md#verified-results)
+- [Custom-image remediation evidence](evidence/security-build/)
 - [Missing-image incident evidence](evidence/image-missing/)
+- [Ingress routing evidence](evidence/ingress-selector/)
 
 Local storage and single replicas do not provide high availability.
 PVC persistence is not a backup; backup restoration remains untested.
-
-## Additional scenario: Ready application, Ingress HTTP 503
-
-Scope: ingress-lab release in wordpress-ingress, Traefik in ingress-system.
-
-1. Confirm the HTTP failure through the configured hostname.
-2. Inspect Pod readiness and labels.
-3. Compare the application Service selector with those labels.
-4. Inspect EndpointSlice addresses and readiness.
-5. Test HTTP inside the application Pod using the expected Host header.
-6. Inspect the Ingress backend reference and controller logs.
-7. If the selector is wrong, restore the value declared in the chart.
-8. Wait for endpoint discovery, then verify HTTP and application content.
-
-In the reproduced case, frontend-typo matched no Pods. The application
-remained Ready and answered HTTP 200 directly; Ingress returned 503.
-Restoring frontend recovered access without restarting Pods.
-
-Commands, evidence and escalation guidance are in the
-[Ingress lab guide](../labs/ingress/README.md).

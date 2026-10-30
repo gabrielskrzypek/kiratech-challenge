@@ -154,7 +154,9 @@ Do not delete PVCs as a troubleshooting shortcut.
 - No exploit was executed; successful RCE was not demonstrated.
 - Version/configuration assessment and update verification were performed.
 - Backup restoration and rollback were not tested.
-- The complete project has not yet been validated from a fresh Git clone.
+- A later [clean-checkout test](../../docs/fresh-checkout-test.md) verified
+  installation/removal with existing custom images and cluster. It did not
+  replay this published-image update lab.
 - This test does not establish that the image has no other vulnerabilities.
 - The separate PHP advisory of 2026-10-23 concerning session upload progress
   was not assessed in this lab and remains a follow-up review item.

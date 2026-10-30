@@ -6,7 +6,7 @@ Reference installation:
 - Helm release: patch-lab.
 - Single-node minikube cluster.
 
-## Components and flows
+## Custom-image Helm lab — direct port-forward access
 
 ```mermaid
 flowchart TB
@@ -67,7 +67,9 @@ Open http://localhost:8083.
 kubectl uses the Service to select a Pod and forwards traffic to that Pod.
 Keep the terminal open; reopen the tunnel after Pod replacement if needed.
 
-No Ingress or external load balancer is configured.
+This reference installation uses direct port-forward without Ingress.
+The separate wordpress-ingress installation uses Traefik; see
+[the Ingress diagram](#optional-ingress-deployment) below.
 
 ## Configuration and credentials
 
@@ -111,7 +113,8 @@ successful authentication or complete database initialization.
 ## Packaging and deployment
 
 The Helm chart derives from k8s/stack.yaml.
-It defines two Deployments, two Services, two PVCs and one ConfigMap.
+It defines two Deployments, two Services, two PVCs and one ConfigMap,
+plus an optional Ingress when enabled in values (chart 0.2.0).
 The namespace and Secret are prepared separately.
 
 values.yaml supplies defaults. Lab override files select the image,

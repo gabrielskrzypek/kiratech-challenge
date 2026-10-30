@@ -4,7 +4,7 @@
 
 WordPress e MySQL distribuiti su Kubernetes locale, con storage persistente, controlli di salute, immagini personalizzate, un chart Helm e troubleshooting documentato.
 
-**Stato al 29 ottobre 2026:** laboratorio di patch delle immagini personalizzate e aggiornamento Helm implementati, verificati funzionalmente e documentati. La consegna finale del challenge è ancora in corso.
+**Stato al 30 ottobre 2026:** implementazione e documentazione dei laboratori completate e pubblicate, incluso Ingress. Le verifiche eseguite e i relativi limiti sono riportati nei documenti collegati; la preparazione della dimostrazione è separata.
 
 ## Architettura
 
@@ -13,7 +13,7 @@ WordPress è un CMS open source esistente. Il suo container comprende Apache e P
 - Due Deployment, ciascuno con una replica e strategia Recreate.
 - Configurazione tramite ConfigMap e credenziali tramite Secret.
 - Due PVC: dati MySQL in /var/lib/mysql e contenuti WordPress in /var/www/html/wp-content.
-- Accesso tramite Service ClusterIP e port-forward locale.
+- Accesso locale tramite port-forward diretto e laboratorio Ingress opzionale con Traefik.
 - Startup, readiness e liveness probe.
 - Richieste e limiti di CPU e memoria.
 
@@ -28,43 +28,34 @@ Profilo: kiratech. Kubernetes: v1.36.1. Helm: v4.3.1.
 
 Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 
-## Attività verificate
+## Percorso del progetto e risultati
 
-- Installazione web di WordPress e accesso alla Dashboard.
-- Installazione nuova senza riparazioni manuali del database.
-- Persistenza di pubblicazione e immagine dopo la sostituzione separata dei Pod.
-- Riproduzione e diagnosi del fallimento di inizializzazione MySQL.
-- Correzione delle credenziali contenenti un newline finale.
-- Laboratorio con immagini pubblicate: PHP 8.3.35 → 8.3.36, WordPress 7.1.2 → 7.1.3, Apache 2.4.68 → 2.4.69.
-- Laboratorio con immagini personalizzate: costruite due immagini WordPress 7.1.3 usando basi PHP/Apache fissate tramite versione e digest; PHP 8.3.35 → 8.3.36.
-- Validazione del chart Helm e confronto dei manifest generati: tra le configurazioni cambia soltanto l'immagine WordPress.
-- Installazione e aggiornamento Helm: patch-lab è passata dalla revisione 1 alla revisione 2 nel namespace wordpress-build.
-- Aggiornamento personalizzato: PHP 8.3.36 verificato da CLI e web; MySQL e PVC conservati; articolo e immagine mantenuti con hash degli upload corrispondenti.
-- Verifica della versione PHP sia da CLI sia dall'interfaccia web.
-- Conservazione della pubblicazione e corrispondenza degli hash SHA-256 dei file caricati dopo l'aggiornamento.
+| Fase | Attività e risultato | Approfondimento |
+| --- | --- | --- |
+| 1. Deployment iniziale e credenziali | WordPress/MySQL da manifest; diagnosi di HTTP 500 e autenticazione MySQL, riproduzione con newline nelle credenziali e verifica di una nuova installazione corretta | [Caso MySQL](docs/incidents/mysql-initialization.md) |
+| 2. Persistenza | Sostituzione separata dei Pod WordPress e MySQL; articolo, immagine e volumi conservati | [Verifica](docs/persistence-test.md) |
+| 3. Patch con immagine pubblicata | Diagnosi della versione PHP e sostituzione dell'immagine: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Laboratorio sicurezza](labs/security/README.md) |
+| 4. Patch con build propria e Helm | Analisi del Dockerfile, aggiornamento della base PHP/Apache e build; WordPress resta 7.1.3. Chart, template e values gestiscono installazione e upgrade, con contenuti e hash conservati | [Build e Helm](labs/security-build/README.md) |
+| 5. Immagine non disponibile | Tag errato con policy Never: ErrImageNeverPull; diagnosi e recupero, inclusa la discordanza tra esito del rollback e risorse disponibili | [Incidente immagine](docs/incidents/image-not-available.md) |
+| 6. Checkout pulito | Installazione, verifiche applicative e rimozione con nuove credenziali e PVC, riutilizzando cluster e immagini | [Rapporto](docs/fresh-checkout-test.md) |
+| 7. Ingress e HTTP 503 | Traefik e accesso tramite hostname; selettore Service errato con Pod Ready, diagnosi degli endpoint e recupero senza riavvii | [Laboratorio Ingress](labs/ingress/README.md) |
 
-## Documentazione
+I due percorsi di patch fanno parte del troubleshooting di sicurezza e sono
+inclusi nel runbook, insieme ai casi MySQL, immagine assente e Ingress.
 
-| Argomento | File |
+## Orientarsi nella documentazione
+
+| Obiettivo | Punto di ingresso |
 | --- | --- |
-| Ambiente locale | [docs/local-setup.md](docs/local-setup.md) |
-| Manifest principale | [k8s/stack.yaml](k8s/stack.yaml) |
-| Chart Helm | [charts/kiratech-wordpress/](charts/kiratech-wordpress/) |
-| Incidente MySQL | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
-| Incidente immagine non disponibile | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
-| Runbook L2 | [docs/runbook.md](docs/runbook.md) |
-| Architettura e diagramma | [docs/architecture.md](docs/architecture.md) |
-| Proposta Krateo | [docs/krateo-proposal.md](docs/krateo-proposal.md) |
-| Utilizzo dell'IA e verifiche | [docs/ai-usage.md](docs/ai-usage.md) |
-| Installazione e rimozione da checkout pulito | [docs/fresh-checkout-test.md](docs/fresh-checkout-test.md) |
-| Installazione nuova | [docs/clean-install-test.md](docs/clean-install-test.md) |
-| Persistenza | [docs/persistence-test.md](docs/persistence-test.md) |
-| Aggiornamento con immagini pubblicate | [labs/security/README.md](labs/security/README.md) |
-| Build personalizzata e aggiornamento Helm | [labs/security-build/README.md](labs/security-build/README.md) |
-| Evidenze del laboratorio personalizzato | [docs/evidence/security-build/](docs/evidence/security-build/) |
-| Evidenze | [docs/evidence/](docs/evidence/) |
-| Diario di lavoro | [docs/work-log.md](docs/work-log.md) |
-| Riferimenti upstream | [docs/sources.md](docs/sources.md) |
+| Capire componenti e flussi | [Architettura e diagrammi](docs/architecture.md) |
+| Installare il progetto | [Guida di installazione](docs/delivery-workflow.md) |
+| Diagnosticare e correggere un problema | [Runbook L2: cinque casi](docs/runbook.md) |
+| Riprodurre i laboratori e consultare le evidenze | [Mappa completa della documentazione](docs/README.md) |
+| Valutare le proposte e il metodo | [Krateo](docs/krateo-proposal.md), [pipeline proposta](docs/delivery-workflow.md#proposed-cicd-workflow), [utilizzo dell'IA](docs/ai-usage.md) |
+
+Il manifest iniziale è in [k8s/](k8s/stack.yaml); il packaging riutilizzabile
+è in [charts/](charts/kiratech-wordpress/). I laboratori sono in labs/,
+le procedure e i rapporti in docs/, gli output registrati in docs/evidence/.
 
 ## Installazione da zero
 

@@ -4,7 +4,7 @@
 
 WordPress and MySQL deployed on local Kubernetes, with persistent storage, health checks, custom container images, a Helm chart and documented troubleshooting.
 
-**Status as of 29 October 2026:** the custom-image patch lab and Helm upgrade are implemented, functionally verified and documented. The final challenge submission is still in progress.
+**Status as of 30 October 2026:** lab implementation and documentation completed and published, including Ingress. Linked reports distinguish executed checks from limitations; demonstration preparation is separate.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ WordPress is an existing open source CMS. Its container includes Apache and PHP 
 - Two Deployments, each with one replica and the Recreate strategy.
 - Configuration through a ConfigMap and credentials through a Secret.
 - Two PVCs: MySQL data at /var/lib/mysql and WordPress content at /var/www/html/wp-content.
-- Access through ClusterIP Services and local port-forward.
+- Direct local port-forward access, plus an optional Traefik Ingress lab.
 - Startup, readiness and liveness probes.
 - CPU and memory requests and limits.
 
@@ -28,43 +28,34 @@ Profile: kiratech. Kubernetes: v1.36.1. Helm: v4.3.1.
 
 Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 
-## Verified work
+## Project progression and results
 
-- WordPress web installation and Dashboard access.
-- Fresh installation without manual database repairs.
-- Post and image persistence after replacing the Pods separately.
-- Reproduction and diagnosis of the MySQL initialization failure.
-- Correction of credentials containing trailing newlines.
-- Published-image lab: PHP 8.3.35 → 8.3.36, WordPress 7.1.2 → 7.1.3, Apache 2.4.68 → 2.4.69.
-- Custom-image lab: built two WordPress 7.1.3 images using PHP/Apache bases pinned by version and digest; PHP 8.3.35 → 8.3.36.
-- Helm chart validation and rendered-manifest comparison: only the WordPress image differed between the lab configurations.
-- Helm installation and upgrade: patch-lab moved from revision 1 to revision 2 in namespace wordpress-build.
-- Custom-image upgrade: PHP 8.3.36 verified through CLI and the web; MySQL and PVCs retained; article and image preserved with matching upload hashes.
-- PHP version checks using both CLI and the web interface.
-- Post preservation and matching SHA-256 hashes of uploaded files after the update.
+| Stage | Work and result | Detailed record |
+| --- | --- | --- |
+| 1. Initial deployment and credentials | WordPress/MySQL manifests; diagnose HTTP 500 and MySQL authentication, reproduce the credential-newline failure and verify corrected fresh installation | [MySQL case](docs/incidents/mysql-initialization.md) |
+| 2. Persistence | Replace WordPress and MySQL Pods separately; retain article, image and volume bindings | [Verification](docs/persistence-test.md) |
+| 3. Published-image patch | Diagnose the PHP version and replace the image: PHP 8.3.35 → 8.3.36; WordPress also changes 7.1.2 → 7.1.3 | [Security lab](labs/security/README.md) |
+| 4. Custom build and Helm patch | Inspect the Dockerfile, update the PHP/Apache base and build; WordPress remains 7.1.3. Chart templates and values drive installation/upgrade, preserving content and upload hashes | [Build and Helm](labs/security-build/README.md) |
+| 5. Missing image | Incorrect tag with Never policy causes ErrImageNeverPull; diagnose and recover, including the discrepancy between rollback status and available resources | [Image incident](docs/incidents/image-not-available.md) |
+| 6. Clean checkout | Install, verify the application and remove it using new credentials/PVCs and existing cluster/images | [Report](docs/fresh-checkout-test.md) |
+| 7. Ingress and HTTP 503 | Traefik and hostname access; incorrect Service selector with Ready Pods, endpoint diagnosis and recovery without restarts | [Ingress lab](labs/ingress/README.md) |
 
-## Documentation
+Both patching paths are security troubleshooting and are included in the
+runbook alongside the MySQL, missing-image and Ingress cases.
 
-| Topic | File |
+## Documentation entry points
+
+| Goal | Start here |
 | --- | --- |
-| Local environment | [docs/local-setup.md](docs/local-setup.md) |
-| Main manifest | [k8s/stack.yaml](k8s/stack.yaml) |
-| Helm chart | [charts/kiratech-wordpress/](charts/kiratech-wordpress/) |
-| MySQL incident | [docs/incidents/mysql-initialization.md](docs/incidents/mysql-initialization.md) |
-| Missing-image incident | [docs/incidents/image-not-available.md](docs/incidents/image-not-available.md) |
-| L2 runbook | [docs/runbook.md](docs/runbook.md) |
-| Architecture and diagram | [docs/architecture.md](docs/architecture.md) |
-| Krateo proposal | [docs/krateo-proposal.md](docs/krateo-proposal.md) |
-| AI usage and verification | [docs/ai-usage.md](docs/ai-usage.md) |
-| Clean-checkout installation and removal | [docs/fresh-checkout-test.md](docs/fresh-checkout-test.md) |
-| Fresh installation | [docs/clean-install-test.md](docs/clean-install-test.md) |
-| Persistence | [docs/persistence-test.md](docs/persistence-test.md) |
-| Published-image security update | [labs/security/README.md](labs/security/README.md) |
-| Custom-image build and Helm upgrade | [labs/security-build/README.md](labs/security-build/README.md) |
-| Custom-image lab evidence | [docs/evidence/security-build/](docs/evidence/security-build/) |
-| Evidence | [docs/evidence/](docs/evidence/) |
-| Work history | [docs/work-log.md](docs/work-log.md) |
-| Upstream references | [docs/sources.md](docs/sources.md) |
+| Understand components and traffic | [Architecture and diagrams](docs/architecture.md) |
+| Install the project | [Installation guide](docs/delivery-workflow.md) |
+| Diagnose and correct a problem | [L2 runbook: five cases](docs/runbook.md) |
+| Reproduce labs and inspect evidence | [Complete documentation map](docs/README.md) |
+| Review proposals and method | [Krateo](docs/krateo-proposal.md), [proposed pipeline](docs/delivery-workflow.md#proposed-cicd-workflow), [AI usage](docs/ai-usage.md) |
+
+The original manifest is in [k8s/](k8s/stack.yaml); reusable packaging is in
+[charts/](charts/kiratech-wordpress/). Labs are in labs/, procedures and
+reports in docs/, and recorded outputs in docs/evidence/.
 
 ## Installation from scratch
 
