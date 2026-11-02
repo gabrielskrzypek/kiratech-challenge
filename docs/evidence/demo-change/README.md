@@ -2,7 +2,7 @@
 
 Date: 2026-11-02 · Context: kiratech · Namespace: wordpress-build · Release: patch-lab.
 
-Read the [test report](../../demo-change-test.md), then [session.txt](session.txt).
+Read the [test report](../../verification/demo-change-test.md), then [session.txt](session.txt).
 The session is the final command block and its terminal output, extracted
 without editing from the submitted transcript.
 

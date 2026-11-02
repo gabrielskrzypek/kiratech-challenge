@@ -2,7 +2,7 @@
 
 [All evidence](../README.md)
 
-Report: [Persistence report](../../persistence-test.md)
+Report: [Persistence report](../../verification/persistence-test.md)
 
 Recorded 2026-10-27 in wordpress.
 

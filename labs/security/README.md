@@ -157,7 +157,7 @@ Do not delete PVCs as a troubleshooting shortcut.
 - No exploit was executed; successful RCE was not demonstrated.
 - Version/configuration assessment and update verification were performed.
 - Backup restoration and rollback were not tested.
-- A later [clean-checkout test](../../docs/fresh-checkout-test.md) verified
+- A later [clean-checkout test](../../docs/verification/fresh-checkout-test.md) verified
   installation/removal with existing custom images and cluster. It did not
   replay this published-image update lab.
 - This test does not establish that the image has no other vulnerabilities.

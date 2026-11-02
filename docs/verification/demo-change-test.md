@@ -8,7 +8,7 @@ Helm release: patch-lab
 ## Scope
 
 Verified the small configuration change used in step 7 of the
-[demonstration guide](demo.md#7-small-reversible-configuration-change).
+[demonstration guide](../demo.md#7-small-reversible-configuration-change).
 The existing release and persistent data were retained.
 This was a technical check, not a rehearsal of the complete presentation.
 
@@ -44,7 +44,7 @@ Result: PASS for the resource change, restoration and checks above.
 
 ## Evidence and boundaries
 
-See the [session capture and reading guide](evidence/demo-change/README.md).
+See the [session capture and reading guide](../evidence/demo-change/README.md).
 The local detailed captures are under .local/demo-validation-20261102-172358.
 Captured Helm values and page contents are not published here.
 

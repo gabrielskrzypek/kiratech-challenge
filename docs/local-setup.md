@@ -73,7 +73,7 @@ Observed on 2026-10-23:
 
 These observations describe the initial cluster state on 2026-10-23.
 Application deployment and persistence were verified later; see the
-[clean installation](clean-install-test.md) and [persistence](persistence-test.md) reports.
+[clean installation](verification/clean-install-test.md) and [persistence](verification/persistence-test.md) reports.
 The CPU/memory values above record the initial allocation, not a capacity
 guarantee for running every isolated lab concurrently.
 

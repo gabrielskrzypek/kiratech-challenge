@@ -37,11 +37,11 @@ See [architecture and diagrams](docs/architecture.md) and [local setup](docs/loc
 | Stage | Result | Record |
 | --- | --- | --- |
 | Initial deployment | Diagnosed HTTP 500 and MySQL error 1045; reproduced initialization failure with trailing-newline credentials and verified a corrected fresh installation | [MySQL incident](docs/incidents/mysql-initialization.md) |
-| Persistence | Article and uploaded image survived separate WordPress and MySQL Pod replacement | [Persistence test](docs/persistence-test.md) |
+| Persistence | Article and uploaded image survived separate WordPress and MySQL Pod replacement | [Persistence test](docs/verification/persistence-test.md) |
 | Published-image correction | Replaced the affected image: PHP 8.3.35 → 8.3.36; WordPress also changed 7.1.2 → 7.1.3 | [Security incident](docs/incidents/php-security-image-update.md) |
 | Custom build and Helm | Changed the pinned PHP/Apache base in the Dockerfile, rebuilt and upgraded through Helm values; WordPress remained 7.1.3 and upload hashes matched | [Build and Helm incident](docs/incidents/php-security-custom-build.md) |
 | Missing image | Diagnosed ErrImageNeverPull from an incorrect tag with Never policy; recovered the workload and reconciled Helm state after a reported rollback failure | [Image incident](docs/incidents/image-not-available.md) |
-| Clean checkout | Installed, checked the application and removed a separate instance using new credentials/PVCs and existing cluster/images | [Checkout test](docs/fresh-checkout-test.md) |
+| Clean checkout | Installed, checked the application and removed a separate instance using new credentials/PVCs and existing cluster/images | [Checkout test](docs/verification/fresh-checkout-test.md) |
 | Ingress routing | Diagnosed HTTP 503 with Ready Pods: a Service selector matched no backends. Correcting it restored access without Pod restarts | [Ingress incident](docs/incidents/ingress-service-selector.md) |
 
 The two security cases address the same assessed PHP issue through different
@@ -58,7 +58,7 @@ Start Docker Desktop before running the WSL commands.
 | Verify or demonstrate | [Demonstration guide](docs/demo.md), including access and runtime checks; the full sequence has not been rehearsed |
 | Diagnose a problem | [L2 runbook](docs/runbook.md): MySQL, published-image correction, custom build, missing image and Ingress |
 | Set up Ingress | [Traefik and routing lab](labs/ingress/README.md) |
-| Remove an installation | [Removal and data loss](labs/security-build/README.md#removal-and-data-loss); [verified cleanup](docs/fresh-checkout-test.md#removal) |
+| Remove an installation | [Removal and data loss](labs/security-build/README.md#removal-and-data-loss); [verified cleanup](docs/verification/fresh-checkout-test.md#removal) |
 | Browse all records | [Documentation map](docs/README.md) and [evidence index](docs/evidence/README.md) |
 
 Source layout: [original manifest](k8s/stack.yaml), [Helm chart](charts/kiratech-wordpress/),

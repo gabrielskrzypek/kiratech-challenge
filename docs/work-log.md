@@ -80,7 +80,7 @@ Record: [local setup](local-setup.md). Git record: c24e729 (2026-10-23).
   internal password-parsing mechanism was not investigated.
 
 Records: [MySQL incident](incidents/mysql-initialization.md),
-[clean installation](clean-install-test.md),
+[clean installation](verification/clean-install-test.md),
 [failed initialization log](evidence/mysql-initialization/mysql-init-failed.log) and
 [clean initialization log](evidence/mysql-initialization/mysql-init-clean.log).
 
@@ -90,7 +90,7 @@ Records: [MySQL incident](incidents/mysql-initialization.md),
 - Confirmed both PVCs stayed Bound to the same volumes.
 - This completed the Pod-replacement persistence check pending on 26 October.
 
-Record: [persistence verification](persistence-test.md).
+Record: [persistence verification](verification/persistence-test.md).
 
 ### Security troubleshooting through published-image replacement
 - Created the isolated wordpress-security lab with the affected baseline.
@@ -179,7 +179,7 @@ Evidence: [diagnosis and recovery](evidence/image-missing/).
 - Published the repository to GitHub after configuring SSH authentication.
   The local clean-checkout test itself did not test remote cloning.
 
-Records: [checkout validation](fresh-checkout-test.md),
+Records: [checkout validation](verification/fresh-checkout-test.md),
 [architecture](architecture.md), [Krateo proposal](krateo-proposal.md),
 [AI usage](ai-usage.md) and [delivery workflow](delivery-workflow.md).
 Git records include 5b790e8, c35fec7, 8209949, 010879d and b5b99a1.
@@ -273,7 +273,7 @@ Records: [Ingress guide](../labs/ingress/README.md),
   unchanged PVC identities/volume bindings.
 - Checked direct application HTTP 200 and the expected article title.
 - Final Deployments were available and the WordPress Pod was Ready with zero restarts.
-- Added the [test report](demo-change-test.md) and the submitted
+- Added the [test report](verification/demo-change-test.md) and the submitted
   [session capture](evidence/demo-change/README.md), then updated the demo guide.
 - This verifies the resource-change step; the full presentation sequence
   has not been rehearsed. CPU restoration did not roll back the chart version.

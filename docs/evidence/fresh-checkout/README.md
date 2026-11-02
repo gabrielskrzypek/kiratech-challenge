@@ -2,7 +2,7 @@
 
 [All evidence](../README.md)
 
-Report: [Clean-checkout report](../../fresh-checkout-test.md)
+Report: [Clean-checkout report](../../verification/fresh-checkout-test.md)
 
 Recorded 2026-10-29 in wordpress-validation, release validation. Existing images and cluster were reused.
 

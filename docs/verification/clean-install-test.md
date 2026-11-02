@@ -22,11 +22,11 @@ Namespace: wordpress-check-clean
 Result: PASS for this fresh installation.
 
 ## Evidence
-- [mysql-init-clean.log](evidence/mysql-initialization/mysql-init-clean.log)
-- [mysql-clean-pods.txt](evidence/mysql-initialization/mysql-clean-pods.txt)
-- [clean-install-resources.txt](evidence/clean-install/clean-install-resources.txt)
+- [mysql-init-clean.log](../evidence/mysql-initialization/mysql-init-clean.log)
+- [mysql-clean-pods.txt](../evidence/mysql-initialization/mysql-clean-pods.txt)
+- [clean-install-resources.txt](../evidence/clean-install/clean-install-resources.txt)
 
 ## Subsequent follow-up
-Installation instructions are available through the [delivery guide](delivery-workflow.md).
+Installation instructions are available through the [delivery guide](../delivery-workflow.md).
 The later [clean-checkout test](fresh-checkout-test.md) verified Helm installation
 and removal with existing images and cluster; it did not replay every lab.

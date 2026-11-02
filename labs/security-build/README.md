@@ -129,7 +129,7 @@ credential files. Do not rerun the initialization steps against existing data
 or regenerate credentials for an initialized database.
 
 The individual build, installation and upgrade steps were executed.
-Installation and removal were subsequently verified from a clean checkout using existing images and the existing cluster; see ../../docs/fresh-checkout-test.md. A complete replay including image rebuilding and upgrade was not performed.
+Installation and removal were subsequently verified from a clean checkout using existing images and the existing cluster; see ../../docs/verification/fresh-checkout-test.md. A complete replay including image rebuilding and upgrade was not performed.
 
 ## Build and load images
 
@@ -294,7 +294,7 @@ The following command is destructive for this chart's persistent data.
 The PVCs are managed by Helm, and the local StorageClass uses Delete.
 Export and verify any data that must be kept before uninstalling.
 
-Chart removal was subsequently verified in a separate clean-checkout installation; see ../../docs/fresh-checkout-test.md. The original patch-lab installation was retained.
+Chart removal was subsequently verified in a separate clean-checkout installation; see ../../docs/verification/fresh-checkout-test.md. The original patch-lab installation was retained.
 
 ```bash
 helm uninstall patch-lab --kube-context kiratech -n wordpress-build

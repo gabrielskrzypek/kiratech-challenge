@@ -57,7 +57,7 @@ described above.
 
 ## Evidence
 
-See evidence/fresh-checkout/ for the source commit, Helm output,
+See the [evidence folder](../evidence/fresh-checkout/README.md) for the source commit, Helm output,
 resource listings, database check, versions, initialization logs,
 manual browser observations, HTTP result and removal output.
 

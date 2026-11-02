@@ -5,7 +5,7 @@ Run commands from the repository root in Ubuntu WSL.
 
 The complete presentation sequence has not been rehearsed. The resource
 change and restoration in step 7 were verified on 2026-11-02; see the
-[verification report](demo-change-test.md) and its session capture.
+[verification report](verification/demo-change-test.md) and its session capture.
 
 ## Prepare the scope
 
@@ -64,7 +64,7 @@ Explain: templates describe resources; values supply configuration; the release
 identifies an installation. Namespace and Secret are prepared separately.
 Use [build, credentials and installation instructions](../labs/security-build/README.md)
 for a live fresh installation. Existing retained resources must not be reinitialized.
-The [clean-checkout report](fresh-checkout-test.md) records a separate successful
+The [clean-checkout report](verification/fresh-checkout-test.md) records a separate successful
 install and removal using existing images and cluster, not a new-machine rebuild.
 
 ## 4. Pods, Services and storage
@@ -124,7 +124,7 @@ kubectl --context=kiratech describe node kiratech
 If the baseline differs, stop and choose a matching restoration value before
 proceeding. Check the lab's backup procedure before modifying retained data-bearing
 workloads. This change replaces the WordPress Pod and Recreate interrupts
-access. The [verified run](demo-change-test.md) changed 100m to 150m and back
+access. The [verified run](verification/demo-change-test.md) changed 100m to 150m and back
 to 100m, using a captured copy of the active Helm values. Preserve those values
 for both upgrades rather than replacing existing overrides with lab defaults.
 Run the following commands in the same terminal. The values capture stays in

@@ -21,11 +21,11 @@ PHP issue, not two independently demonstrated exploits.
 
 | Test | Report / procedure | Evidence |
 | --- | --- | --- |
-| Clean WordPress installation | [Report](../clean-install-test.md) | [Clean resources](clean-install/README.md), with shared MySQL evidence linked there |
-| Pod-replacement persistence | [Report](../persistence-test.md) | [Before, after WordPress, after MySQL](persistence/README.md) |
-| Clean-checkout installation/removal | [Report](../fresh-checkout-test.md) | [Source through cleanup](fresh-checkout/README.md) |
+| Clean WordPress installation | [Report](../verification/clean-install-test.md) | [Clean resources](clean-install/README.md), with shared MySQL evidence linked there |
+| Pod-replacement persistence | [Report](../verification/persistence-test.md) | [Before, after WordPress, after MySQL](persistence/README.md) |
+| Clean-checkout installation/removal | [Report](../verification/fresh-checkout-test.md) | [Source through cleanup](fresh-checkout/README.md) |
 | Ingress setup and final checks | [Lab guide](../../labs/ingress/README.md) | [Probe/Helm recovery and final verification](ingress/README.md) |
-| Demo resource change | [Report](../demo-change-test.md) | [CPU change/restoration and final checks](demo-change/README.md) |
+| Demo resource change | [Report](../verification/demo-change-test.md) | [CPU change/restoration and final checks](demo-change/README.md) |
 
 ## How to interpret these files
 

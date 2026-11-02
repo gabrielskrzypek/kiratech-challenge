@@ -2,7 +2,7 @@
 
 [All evidence](../README.md)
 
-Report: [Clean-install report](../../clean-install-test.md)
+Report: [Clean-install report](../../verification/clean-install-test.md)
 
 Recorded 2026-10-27 in wordpress-check-clean.
 

@@ -38,11 +38,11 @@ Vedi [architettura e diagrammi](docs/architecture.md) e [setup locale](docs/loca
 | Fase | Risultato | Documento |
 | --- | --- | --- |
 | Deployment iniziale | Diagnosi di HTTP 500 ed errore MySQL 1045; riproduzione del fallimento di inizializzazione con credenziali contenenti newline finale e verifica di una nuova installazione corretta | [Incidente MySQL](docs/incidents/mysql-initialization.md) |
-| Persistenza | Articolo e immagine caricata conservati dopo la sostituzione separata dei Pod WordPress e MySQL | [Test di persistenza](docs/persistence-test.md) |
+| Persistenza | Articolo e immagine caricata conservati dopo la sostituzione separata dei Pod WordPress e MySQL | [Test di persistenza](docs/verification/persistence-test.md) |
 | Correzione con immagine pubblicata | Sostituzione dell'immagine interessata: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Incidente di sicurezza](docs/incidents/php-security-image-update.md) |
 | Build propria e Helm | Modifica della base PHP/Apache fissata nel Dockerfile, build e upgrade tramite values Helm; WordPress resta 7.1.3 e gli hash degli upload coincidono | [Incidente build e Helm](docs/incidents/php-security-custom-build.md) |
 | Immagine non disponibile | Diagnosi di ErrImageNeverPull dovuto a un tag errato con policy Never; recupero del workload e riconciliazione dello stato Helm dopo un errore segnalato dal rollback | [Incidente immagine](docs/incidents/image-not-available.md) |
-| Checkout pulito | Installazione, verifiche applicative e rimozione di un'istanza separata con nuove credenziali/PVC e cluster/immagini esistenti | [Test da checkout](docs/fresh-checkout-test.md) |
+| Checkout pulito | Installazione, verifiche applicative e rimozione di un'istanza separata con nuove credenziali/PVC e cluster/immagini esistenti | [Test da checkout](docs/verification/fresh-checkout-test.md) |
 | Instradamento Ingress | Diagnosi di HTTP 503 con Pod Ready: un selettore Service non individuava backend. La correzione ha ripristinato l'accesso senza riavviare i Pod | [Incidente Ingress](docs/incidents/ingress-service-selector.md) |
 
 I due casi di sicurezza affrontano lo stesso problema PHP analizzato con
@@ -60,7 +60,7 @@ Avviare Docker Desktop prima di eseguire i comandi da WSL.
 | Verificare o presentare | [Guida alla dimostrazione](docs/demo.md), inclusi accesso e controlli del runtime; la sequenza completa non è stata provata |
 | Diagnosticare un problema | [Runbook L2](docs/runbook.md): MySQL, correzione con immagine pubblicata, build propria, immagine assente e Ingress |
 | Configurare Ingress | [Laboratorio Traefik e instradamento](labs/ingress/README.md) |
-| Rimuovere un'installazione | [Rimozione e perdita dei dati](labs/security-build/README.md#removal-and-data-loss); [rimozione verificata](docs/fresh-checkout-test.md#removal) |
+| Rimuovere un'installazione | [Rimozione e perdita dei dati](labs/security-build/README.md#removal-and-data-loss); [rimozione verificata](docs/verification/fresh-checkout-test.md#removal) |
 | Consultare tutti i documenti | [Mappa della documentazione](docs/README.md) e [indice delle evidenze](docs/evidence/README.md) |
 
 Struttura: [manifest iniziale](k8s/stack.yaml), [chart Helm](charts/kiratech-wordpress/),

@@ -175,7 +175,7 @@ SELECT 1 query.
 
 For a new installation, generate credentials without trailing line endings
 and initialize fresh storage. See the incident report and
-[clean installation test](clean-install-test.md).
+[clean installation test](verification/clean-install-test.md).
 
 For a database with existing data:
 - Preserve its current credential files and storage.

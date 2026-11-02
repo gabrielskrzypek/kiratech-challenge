@@ -55,7 +55,7 @@ installation. A different environment has not been validated by this project.
 
 The guide uses namespace wordpress-build and release patch-lab.
 If they already exist, use distinct names consistently, as demonstrated
-in the [clean-checkout test](fresh-checkout-test.md).
+in the [clean-checkout test](verification/fresh-checkout-test.md).
 
 For an installation using the corrected image directly, select
 values-patched.yaml instead of values-affected.yaml at installation.
