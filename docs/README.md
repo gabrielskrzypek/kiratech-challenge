@@ -60,7 +60,8 @@ observations, not additional independently validated vulnerability cases.
 - [Delivery workflow](delivery-workflow.md#proposed-cicd-workflow): proposed pipeline, not implemented.
 - [AI usage](ai-usage.md): assistance, candidate verification and corrections.
 - [Sources](sources.md): upstream origin and subject-specific references.
-- [Early work log](work-log.md): dated initial notes, not the current status.
+- [Work log](work-log.md): chronological implementation, troubleshooting and
+  verification record, with links to detailed reports and evidence.
 - [Evidence directory](evidence/): recorded outputs; do not overwrite them to match later documentation.
 
 The security labs demonstrate version/configuration assessment and remediation,
