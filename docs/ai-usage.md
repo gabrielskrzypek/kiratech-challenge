@@ -1,4 +1,4 @@
-# AI assistance and manual verification
+# AI assistance and verification
 
 ## Scope
 
@@ -6,8 +6,9 @@ AI was used as a learning and implementation assistant during this challenge.
 It helped explain unfamiliar concepts, propose commands, draft configuration
 and organise documentation.
 
-The candidate executed the commands and reviewed their outputs.
-This work should not be presented as implementation completed without assistance.
+Verification used command output, browser checks and the references linked
+in the lab reports. The sections below describe the assistance received and
+the checks performed.
 
 ## Tasks supported by AI
 
@@ -62,12 +63,9 @@ had already been repaired using those credentials.
 - Captured Kubernetes events identifying the unavailable image and Never policy.
 - Compared Helm history with actual Kubernetes state during recovery.
 
-These checks support the documented results; they do not prove that every
-configuration choice or security property is correct.
-
 ## Limits and corrections
 
-- AI suggestions were treated as hypotheses until checked against evidence.
+- Suggestions were compared with documentation and observed behavior.
 - The missing-image rollback reported failure even though Kubernetes recovered.
   The precise reason for that discrepancy remains unconfirmed.
 - Updating the image and checking versions did not demonstrate exploitation
@@ -81,21 +79,12 @@ configuration choice or security property is correct.
 
 Credential values and SQL backups were kept outside version control.
 Diagnostic evidence used in documentation excludes password values.
-Further AI-assisted review must use redacted output rather than credentials,
-tokens, database dumps or other sensitive content.
-
-## Candidate responsibility
-
-The candidate must be able to explain the deployed components, diagnostic
-decisions and limitations. AI-generated commands require review of their
-target context, namespace and effect before execution, especially when
-changing credentials, deleting resources or handling persistent data.
 
 ## Ingress lab follow-up: 2026-10-30
 
 AI assisted with the optional Ingress template, Traefik values, diagnostic
-commands, smoke script and documentation. The candidate executed commands,
-configured local hostname resolution and completed WordPress installation.
+commands, smoke script and documentation. The lab included local hostname
+resolution and WordPress web installation.
 
 Manual checks confirmed:
 - Helm recovery from an interrupted pending-install operation.

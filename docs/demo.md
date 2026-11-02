@@ -202,8 +202,8 @@ installation. Krateo was not installed; the request is illustrative YAML.
 
 ## 11. AI use and verification
 
-Use the [AI record](ai-usage.md): show one suggestion, the candidate's actual
-output and the resulting correction. Traefik chart-value mistakes are a
-concrete example. State the candidate's responsibility for verification and
-name the remaining limits: no backup restore, full fresh-machine rebuild,
-exploit, TLS/public Ingress or implemented CI/CD/Krateo integration.
+Use the [AI record](ai-usage.md): show one suggestion, the observed output
+and the resulting correction. Traefik chart-value mistakes are a concrete
+example. Explain the verification steps and remaining limits: no backup
+restore, full fresh-machine rebuild, exploit, TLS/public Ingress or
+implemented CI/CD/Krateo integration.
