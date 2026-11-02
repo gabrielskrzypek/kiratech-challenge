@@ -10,8 +10,7 @@ di problemi di sicurezza e troubleshooting operativo, con evidenze registrate.
 Ho scelto WordPress perché il livello web, il database separato e i file
 caricati permettono di verificare configurazione, problemi delle dipendenze
 e persistenza. La scelta è stata motivata anche da un problema di sicurezza
-segnalato recentemente nel runtime PHP di un'immagine WordPress, seguendo
-il suggerimento del senior.
+segnalato recentemente nel runtime PHP di un'immagine WordPress.
 
 Il lavoro sulla sicurezza comprende due percorsi: sostituire l'immagine
 pubblicata e analizzare il Dockerfile per ricostruirla con una base PHP/Apache

@@ -10,7 +10,7 @@ remediation and operational troubleshooting, with recorded evidence.
 I chose WordPress because its web tier, separate database and uploaded files
 provide concrete checks for configuration, dependency failures and persistence.
 A recently reported security issue affecting the PHP runtime in a WordPress
-image also motivated the choice, following the senior's suggestion.
+image also motivated the choice.
 
 The security work covers two correction paths: replacing the published image
 and inspecting its Dockerfile to rebuild with a corrected PHP/Apache base.
