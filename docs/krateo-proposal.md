@@ -1,101 +1,69 @@
 # Krateo integration proposal
 
-## Scope
+## Starting from the Helm lab
 
-Conceptual proposal for reusing this project's Helm chart through Krateo.
-Krateo has not been installed or tested in this project.
+In this project, installing WordPress means preparing a namespace and Secret,
+loading the image into Minikube, selecting values and running Helm. The chart
+already groups WordPress, MySQL, Services and persistent storage into one
+installation.
 
-## Reusable service
+I would use [this chart](../charts/kiratech-wordpress/) as the starting point
+for a reusable WordPress service in Krateo. Someone requesting another instance
+could supply a few parameters instead of repeating the deployment commands.
+This is a conceptual proposal; Krateo was not installed or tested in this project.
 
-Offer a WordPress lab consisting of:
-- WordPress with Apache and PHP.
-- MySQL with an application database and user.
-- Internal Services, configuration and references to an existing Secret.
-- Separate persistent storage for MySQL and WordPress content.
-- Resource requests, limits and health probes.
+## What the request would contain
 
-The implementation starting point is charts/kiratech-wordpress.
-The custom image build remains a separate preparation step.
+For a first version, I would expose the settings already useful in the lab:
 
-## Proposed inputs
+| Parameter | Use in this project |
+| --- | --- |
+| Instance name | Identify the installation and its resources, as the Helm release name does now |
+| Namespace | Choose where to install the instance |
+| WordPress image | Select the build through `wordpress.image` |
+| Existing Secret | Supply the credential reference through `existingSecret` |
+| Storage sizes | Set `wordpress.storage` and `mysql.storage` |
+| CPU and memory | Adjust the existing WordPress and MySQL resource values |
+| Optional hostname | Configure `ingress.enabled`, `ingress.className` and `ingress.host` when a controller is available |
 
-| Input | Purpose | Relationship to the current implementation |
-| --- | --- | --- |
-| Instance name | Identify the installation | Resource names currently use the Helm release name |
-| Namespace | Select the installation namespace | Templates already use the release namespace |
-| Environment | Select an approved lab or development profile | Proposed profile selection; not implemented |
-| Source repository and revision | Identify the reviewed source | Build provenance; not a current chart value |
-| Chart source and version | Select the deployment package | Chart must be packaged and published |
-| WordPress image | Select an approved application build | Existing wordpress.image value |
-| Existing Secret name | Reference database credentials | Existing existingSecret value |
-| Storage sizes | Request persistent capacity | Existing storage values |
-| Resource requests and limits | Control workload allocation | Existing resource values |
+Instance name and namespace need an explicit mapping in the integration;
+they are not ordinary values in the current chart. Passwords would stay out
+of the request: the referenced Secret must be provided in the target namespace.
 
-Passwords would not be entered into a Git-tracked values file.
-The referenced Secret must exist in the target namespace.
+## What would need to change
 
-Instance name and namespace require an explicit mapping in the Krateo
-integration. They must not be assumed to be ordinary chart values.
+The chart is not ready for Krateo registration yet. The next steps would be:
 
-## High-level workflow
+1. Add `values.schema.json` to describe and validate its inputs, then publish
+   a versioned chart.
+2. Publish the custom image to a registry reachable by the cluster. The lab's
+   `Never` pull policy depends on manual image loading and would need to change.
+3. Register the chart using a `CompositionDefinition`: the Krateo resource
+   that defines the reusable service. A `Composition` would then represent one
+   requested WordPress instance. Krateo's controller would manage its Helm release.
+4. Define how namespaces, credentials and permissions are prepared, then test
+   installation, updates and removal with disposable data.
 
-1. Review and build the application image from a recorded source revision.
-2. Publish the approved image to a registry accessible by the cluster.
-3. Add values.schema.json to define and validate the chart's accepted inputs.
-4. Package and publish a versioned Helm chart.
-5. Register the chart through a Krateo CompositionDefinition.
-6. Request an installation by creating a Composition with approved inputs.
-7. Let Krateo's Composition Dynamic Controller manage the Helm release.
-8. Verify Kubernetes resources, application access and persistent content.
+A portal form could make the request easier to fill in, but it would also
+need configuration. Image building would remain a separate step.
 
-A portal could expose these inputs through a form, but configuring that
-interface would be additional integration work.
+## Benefit and limits for this project
 
-## Illustrative request
+The practical benefit would be creating several instances from the same chart
+with consistent defaults, while allowing a different image or storage size.
+For one local installation, Helm already does the job; Krateo becomes more
+useful when the same service is requested repeatedly.
 
-This is a design example using the current chart version, not an executable
-Krateo manifest or a published chart reference:
-
-```yaml
-instanceName: wordpress-demo
-namespace: wordpress-demo
-environment: lab
-source:
-  repository: "<project repository URL>"
-  revision: "<reviewed Git commit>"
-chart:
-  name: kiratech-wordpress
-  version: "0.2.0"
-application:
-  image: "<approved registry image pinned by digest>"
-  existingSecret: mysql-credentials
-  wordpressStorage: 2Gi
-  mysqlStorage: 2Gi
-```
-
-## Expected benefits
-
-- Reuse the deployment already verified in this project.
-- Offer consistent defaults and validated configuration.
-- Reduce manual YAML editing for each installation.
-- Associate installations with reviewed chart and image versions.
-
-These are expected benefits, not results measured in this project.
-
-## Limitations and safeguards
-
-- The current chart has no values.schema.json or tested Krateo registration.
-- Local lab images with imagePullPolicy Never require prior node loading;
-  a shared platform would normally use a registry and an appropriate policy.
-- Namespace provisioning, permissions and Secret delivery need explicit design.
-- Image building, scanning and approval are separate pipeline responsibilities.
-- Recreate deployments can interrupt service during updates.
-- Local minikube storage does not provide high availability or backups.
-- Deletion must account for PVCs and their Delete reclaim policy.
-- Platform automation does not replace application checks or L2 diagnosis.
+It would not remove the operational problems demonstrated here. An incorrect
+Service selector can still leave the application unreachable, and changing
+a Secret still does not rotate an initialized MySQL account's password.
+Deletion also needs an explicit data policy: uninstalling this chart removes
+its PVCs and can delete the stored content. These points would need checking
+before offering the service to others.
 
 ## Official references
 
-Documentation reviewed on 2026-10-29:
-- https://docs.krateo.io/key-concepts/kco/architecture/
-- https://docs.krateo.io/how-to-guides/kco-operations/deploy-composition-definition/
+Reviewed on 2026-11-02:
+
+- [Architecture and concepts](https://docs.krateo.io/key-concepts/kco/architecture/)
+- [Deploying a CompositionDefinition](https://docs.krateo.io/how-to-guides/kco-operations/deploy-composition-definition/)
