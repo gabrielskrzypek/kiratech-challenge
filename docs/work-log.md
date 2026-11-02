@@ -237,6 +237,9 @@ Records: [Ingress guide](../labs/ingress/README.md),
   lab guides and indexes. This reorganized existing results, without new tests.
 - Grouped evidence captures by scenario and added ordered reading guides;
   updated references while preserving every original capture byte-for-byte.
+- Expanded the architecture document with the installation map, resource
+  ownership, image delivery flow and complete Ingress request path, checked
+  against chart 0.2.0 and the existing lab records.
 - This was a documentation correction; no cluster operations, new exploitation
   tests or additional deployment verification were performed.
 
