@@ -82,27 +82,20 @@ had already been repaired using those credentials.
 Credential values and SQL backups were kept outside version control.
 Diagnostic evidence used in documentation excludes password values.
 
-## Ingress lab follow-up: 2026-10-30
+## Ingress lab
 
-AI assisted with the optional Ingress template, Traefik values, diagnostic
-commands, smoke script and documentation. The lab included local hostname
-resolution and WordPress web installation.
+AI assisted with the Ingress template, Traefik configuration, diagnostic
+commands and smoke script.
 
-Manual checks confirmed:
-- Helm recovery from an interrupted pending-install operation.
-- Application availability after increasing HTTP probe timeouts.
-- HTTP 503 after a deliberate Service selector mismatch.
-- Empty backend endpoints despite a Ready application Pod.
-- Direct application HTTP 200 during the routing fault.
-- Recovery of endpoints, HTTP 200 and expected page content.
-- Unchanged application Pod identity and restart count during the fault.
-- A successful execution of the reusable smoke script.
+Suggestions were checked against chart defaults, rendered manifests and
+actual Kubernetes behavior. For example, inspecting the chart identified
+the correct configuration paths: `log`, `accessLog` and `service.spec.type`.
 
-Initial AI suggestions used incorrect Traefik chart value paths.
-Chart schema validation rejected logs; inspection of chart defaults
-identified log and accessLog. The live Service revealed that service.type
-did not configure its type; service.spec.type corrected it.
+Verification confirmed the Service selector mismatch, empty backend
+endpoints and HTTP 503 despite a Ready application Pod. Correcting the
+selector restored HTTP 200 and the expected content without restarting
+the Pod. The smoke script was subsequently checked on the recovered
+application.
 
-The smoke script was created after the fault experiment and was verified
-on the recovered application. TLS, public access and removal of this
-additional lab were not tested.
+The [Ingress lab report](../labs/ingress/README.md) contains the procedure,
+evidence and test limitations.
