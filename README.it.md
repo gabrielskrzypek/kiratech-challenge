@@ -34,11 +34,11 @@ Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
 | --- | --- | --- |
 | 1. Deployment iniziale e credenziali | WordPress/MySQL da manifest; diagnosi di HTTP 500 e autenticazione MySQL, riproduzione con newline nelle credenziali e verifica di una nuova installazione corretta | [Caso MySQL](docs/incidents/mysql-initialization.md) |
 | 2. Persistenza | Sostituzione separata dei Pod WordPress e MySQL; articolo, immagine e volumi conservati | [Verifica](docs/persistence-test.md) |
-| 3. Patch con immagine pubblicata | Diagnosi della versione PHP e sostituzione dell'immagine: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Laboratorio sicurezza](labs/security/README.md) |
-| 4. Patch con build propria e Helm | Analisi del Dockerfile, aggiornamento della base PHP/Apache e build; WordPress resta 7.1.3. Chart, template e values gestiscono installazione e upgrade, con contenuti e hash conservati | [Build e Helm](labs/security-build/README.md) |
+| 3. Patch con immagine pubblicata | Diagnosi della versione PHP e sostituzione dell'immagine: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Caso sicurezza](docs/incidents/php-security-image-update.md) |
+| 4. Patch con build propria e Helm | Analisi del Dockerfile, aggiornamento della base PHP/Apache e build; WordPress resta 7.1.3. Chart, template e values gestiscono installazione e upgrade, con contenuti e hash conservati | [Caso build e Helm](docs/incidents/php-security-custom-build.md) |
 | 5. Immagine non disponibile | Tag errato con policy Never: ErrImageNeverPull; diagnosi e recupero, inclusa la discordanza tra esito del rollback e risorse disponibili | [Incidente immagine](docs/incidents/image-not-available.md) |
 | 6. Checkout pulito | Installazione, verifiche applicative e rimozione con nuove credenziali e PVC, riutilizzando cluster e immagini | [Rapporto](docs/fresh-checkout-test.md) |
-| 7. Ingress e HTTP 503 | Traefik e accesso tramite hostname; selettore Service errato con Pod Ready, diagnosi degli endpoint e recupero senza riavvii | [Laboratorio Ingress](labs/ingress/README.md) |
+| 7. Ingress e HTTP 503 | Traefik e accesso tramite hostname; selettore Service errato con Pod Ready, diagnosi degli endpoint e recupero senza riavvii | [Incidente Ingress](docs/incidents/ingress-service-selector.md) |
 
 I due percorsi di patch fanno parte del troubleshooting di sicurezza e sono
 inclusi nel runbook, insieme ai casi MySQL, immagine assente e Ingress.

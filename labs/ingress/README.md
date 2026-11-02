@@ -1,5 +1,7 @@
 # WordPress Ingress and routing troubleshooting lab
 
+Incident report: [diagnosis, correction and evidence](../../docs/incidents/ingress-service-selector.md).
+
 ## Scope and verified result
 
 This lab adds optional Kubernetes Ingress support to the project's Helm

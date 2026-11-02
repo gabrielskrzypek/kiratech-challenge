@@ -1,5 +1,7 @@
 # Custom WordPress image patching with Helm
 
+Incident report: [diagnosis, correction and evidence](../../docs/incidents/php-security-custom-build.md).
+
 ## Purpose and scenario
 
 Simulate a situation where an updated WordPress image is unavailable,

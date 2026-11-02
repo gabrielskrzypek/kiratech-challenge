@@ -232,6 +232,9 @@ Records: [Ingress guide](../labs/ingress/README.md),
 - Retained the original session notes and connected their pending items
   to the subsequent verification results.
 - Updated the documentation-map description to reflect the complete chronology.
+- Consolidated the existing published-image, custom-build and Ingress cases into
+  dedicated [incident reports](incidents/), and linked them from the runbook,
+  lab guides and indexes. This reorganized existing results, without new tests.
 - This was a documentation correction; no cluster operations, new exploitation
   tests or additional deployment verification were performed.
 

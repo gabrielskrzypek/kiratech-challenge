@@ -31,14 +31,16 @@ and source paths are retained so existing references remain valid.
 
 The runbook numbers follow the order in which the cases were developed.
 The two security cases share a finding but demonstrate different correction paths.
+All five reports are in [incidents/](incidents/). Reports summarize diagnosis,
+correction and evidence; linked lab guides retain full reproduction procedures.
 
 | Runbook case | Investigation and correction | Detailed record | Evidence |
 | --- | --- | --- | --- |
 | 1. MySQL initialization | HTTP 500 / error 1045; reproduce initialization failure with trailing-LF credentials and compare a corrected fresh installation | [MySQL incident](incidents/mysql-initialization.md) | [Failed initialization](evidence/mysql-init-failed.log), [clean initialization](evidence/mysql-init-clean.log) |
-| 2. Published-image patch | Identify affected PHP; replace the published WordPress image and verify runtime, content and storage | [Published-image lab](../labs/security/README.md) | [Versions before](evidence/security-versions-before.txt), [after](evidence/security-versions-after.txt); other security-* files in evidence/ |
-| 3. Custom-image patch with Helm | Inspect FROM, change the pinned PHP/Apache base, rebuild and deploy through Helm values | [Custom-image lab](../labs/security-build/README.md) | [Build/upgrade evidence](evidence/security-build/) |
+| 2. Published-image patch | Identify affected PHP; replace the published WordPress image and verify runtime, content and storage | [Published-image incident](incidents/php-security-image-update.md) | [Versions before](evidence/security-versions-before.txt), [after](evidence/security-versions-after.txt); other security-* files in evidence/ |
+| 3. Custom-image patch with Helm | Inspect FROM, change the pinned PHP/Apache base, rebuild and deploy through Helm values | [Custom-build incident](incidents/php-security-custom-build.md) | [Build/upgrade evidence](evidence/security-build/) |
 | 4. Missing image | ErrImageNeverPull caused by a nonexistent local image tag with Never policy; recover the intended image and Helm state | [Missing-image incident](incidents/image-not-available.md) | [Image incident evidence](evidence/image-missing/) |
-| 5. Ingress routing | Ready application but HTTP 503; identify a mismatched Service selector and empty endpoints, then restore routing | [Ingress incident](../labs/ingress/README.md#reproduced-incident-healthy-pod-http-503) | [Routing evidence](evidence/ingress-selector/) |
+| 5. Ingress routing | Ready application but HTTP 503; identify a mismatched Service selector and empty endpoints, then restore routing | [Ingress incident](incidents/ingress-service-selector.md) | [Routing evidence](evidence/ingress-selector/) |
 
 The Ingress guide also records actual setup problems: chart value paths,
 probe timeouts and an interrupted Helm installation. These are supporting

@@ -167,6 +167,7 @@ persistent initialization failures or suspected data damage.
 
 ## Case 2 — Affected PHP runtime: replace the published image
 
+Report: [published-image security remediation](incidents/php-security-image-update.md).
 Full procedure: [published-image security lab](../labs/security/README.md).
 Scope: wordpress-security; Deployment wordpress. This uses kubectl manifests.
 
@@ -235,6 +236,7 @@ The separate advisory follow-up remains documented in the lab guide.
 
 ## Case 3 — Affected PHP runtime: rebuild the image and upgrade with Helm
 
+Report: [custom-image security remediation](incidents/php-security-custom-build.md).
 Full procedure: [custom-image security lab](../labs/security-build/README.md).
 Scope: wordpress-build; release patch-lab; Deployment patch-lab-wordpress.
 
@@ -357,6 +359,7 @@ recovery errors or unresolved differences between Helm and live state.
 
 ## Case 5 — Ready application, Ingress HTTP 503
 
+Report: [Ingress Service selector incident](incidents/ingress-service-selector.md).
 Scope: ingress-lab release in wordpress-ingress, Traefik in ingress-system.
 
 1. Confirm the HTTP failure through the configured hostname.

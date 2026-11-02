@@ -34,11 +34,11 @@ Verified configuration: [docs/local-setup.md](docs/local-setup.md).
 | --- | --- | --- |
 | 1. Initial deployment and credentials | WordPress/MySQL manifests; diagnose HTTP 500 and MySQL authentication, reproduce the credential-newline failure and verify corrected fresh installation | [MySQL case](docs/incidents/mysql-initialization.md) |
 | 2. Persistence | Replace WordPress and MySQL Pods separately; retain article, image and volume bindings | [Verification](docs/persistence-test.md) |
-| 3. Published-image patch | Diagnose the PHP version and replace the image: PHP 8.3.35 → 8.3.36; WordPress also changes 7.1.2 → 7.1.3 | [Security lab](labs/security/README.md) |
-| 4. Custom build and Helm patch | Inspect the Dockerfile, update the PHP/Apache base and build; WordPress remains 7.1.3. Chart templates and values drive installation/upgrade, preserving content and upload hashes | [Build and Helm](labs/security-build/README.md) |
+| 3. Published-image patch | Diagnose the PHP version and replace the image: PHP 8.3.35 → 8.3.36; WordPress also changes 7.1.2 → 7.1.3 | [Security incident](docs/incidents/php-security-image-update.md) |
+| 4. Custom build and Helm patch | Inspect the Dockerfile, update the PHP/Apache base and build; WordPress remains 7.1.3. Chart templates and values drive installation/upgrade, preserving content and upload hashes | [Build and Helm incident](docs/incidents/php-security-custom-build.md) |
 | 5. Missing image | Incorrect tag with Never policy causes ErrImageNeverPull; diagnose and recover, including the discrepancy between rollback status and available resources | [Image incident](docs/incidents/image-not-available.md) |
 | 6. Clean checkout | Install, verify the application and remove it using new credentials/PVCs and existing cluster/images | [Report](docs/fresh-checkout-test.md) |
-| 7. Ingress and HTTP 503 | Traefik and hostname access; incorrect Service selector with Ready Pods, endpoint diagnosis and recovery without restarts | [Ingress lab](labs/ingress/README.md) |
+| 7. Ingress and HTTP 503 | Traefik and hostname access; incorrect Service selector with Ready Pods, endpoint diagnosis and recovery without restarts | [Ingress incident](docs/incidents/ingress-service-selector.md) |
 
 Both patching paths are security troubleshooting and are included in the
 runbook alongside the MySQL, missing-image and Ingress cases.

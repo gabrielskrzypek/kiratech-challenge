@@ -1,5 +1,7 @@
 # WordPress container security update lab
 
+Incident report: [diagnosis, correction and evidence](../../docs/incidents/php-security-image-update.md).
+
 Verified on: 2026-10-27
 Kubernetes context: kiratech
 Namespace: wordpress-security
