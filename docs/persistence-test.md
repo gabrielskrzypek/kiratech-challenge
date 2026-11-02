@@ -27,9 +27,9 @@ Namespace: wordpress
 Result: PASS for data persistence across Pod replacement.
 
 ## Evidence
-- evidence/persistence-before.txt
-- evidence/persistence-after-wordpress.txt
-- evidence/persistence-after-mysql.txt
+- [persistence-before.txt](evidence/persistence/persistence-before.txt)
+- [persistence-after-wordpress.txt](evidence/persistence/persistence-after-wordpress.txt)
+- [persistence-after-mysql.txt](evidence/persistence/persistence-after-mysql.txt)
 
 ## Scope and limitations
 MySQL data persists in /var/lib/mysql.

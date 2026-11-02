@@ -81,8 +81,8 @@ Record: [local setup](local-setup.md). Git record: c24e729 (2026-10-23).
 
 Records: [MySQL incident](incidents/mysql-initialization.md),
 [clean installation](clean-install-test.md),
-[failed initialization log](evidence/mysql-init-failed.log) and
-[clean initialization log](evidence/mysql-init-clean.log).
+[failed initialization log](evidence/mysql-initialization/mysql-init-failed.log) and
+[clean initialization log](evidence/mysql-initialization/mysql-init-clean.log).
 
 ### Persistence
 - Replaced the WordPress Pod and then the MySQL Pod in the original namespace.
@@ -105,8 +105,8 @@ Record: [persistence verification](persistence-test.md).
 - This was security diagnosis and remediation; no exploit was executed.
 
 Record: [published-image security lab](../labs/security/README.md).
-Evidence includes [versions before](evidence/security-versions-before.txt)
-and [after](evidence/security-versions-after.txt).
+Evidence includes [versions before](evidence/security-image/security-versions-before.txt)
+and [after](evidence/security-image/security-versions-after.txt).
 Also added the Italian and English project overviews.
 Git records: 501f15b, ddf0c9d, 02d45e2, 3ac3566 and 14165f5.
 
@@ -235,6 +235,8 @@ Records: [Ingress guide](../labs/ingress/README.md),
 - Consolidated the existing published-image, custom-build and Ingress cases into
   dedicated [incident reports](incidents/), and linked them from the runbook,
   lab guides and indexes. This reorganized existing results, without new tests.
+- Grouped evidence captures by scenario and added ordered reading guides;
+  updated references while preserving every original capture byte-for-byte.
 - This was a documentation correction; no cluster operations, new exploitation
   tests or additional deployment verification were performed.
 

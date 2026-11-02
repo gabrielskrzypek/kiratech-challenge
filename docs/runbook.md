@@ -213,12 +213,12 @@ This replaces the WordPress Pod using Recreate and can interrupt service.
 - Compare upload hashes and PVC volume bindings; both were preserved.
 - Inspect logs. The recorded post-update review covered a 60-line sample.
 
-Evidence: [versions before](evidence/security-versions-before.txt),
-[versions after](evidence/security-versions-after.txt),
-[image before](evidence/security-image-before.txt),
-[image after](evidence/security-image-after.txt),
-[upload hashes before](evidence/security-uploads-before.txt) and
-[after](evidence/security-uploads-after.txt).
+Evidence: [versions before](evidence/security-image/security-versions-before.txt),
+[versions after](evidence/security-image/security-versions-after.txt),
+[image before](evidence/security-image/security-image-before.txt),
+[image after](evidence/security-image/security-image-after.txt),
+[upload hashes before](evidence/security-image/security-uploads-before.txt) and
+[after](evidence/security-image/security-uploads-after.txt).
 
 ### Recovery and escalation
 
@@ -395,8 +395,8 @@ Close an incident only after verifying the intended configuration,
 resource readiness and relevant application access. Record limitations.
 
 Evidence:
-- [MySQL failed initialization](evidence/mysql-init-failed.log)
-- [MySQL clean initialization](evidence/mysql-init-clean.log)
+- [MySQL failed initialization](evidence/mysql-initialization/mysql-init-failed.log)
+- [MySQL clean initialization](evidence/mysql-initialization/mysql-init-clean.log)
 - [Published-image remediation](../labs/security/README.md#verified-results)
 - [Custom-image remediation evidence](evidence/security-build/)
 - [Missing-image incident evidence](evidence/image-missing/)

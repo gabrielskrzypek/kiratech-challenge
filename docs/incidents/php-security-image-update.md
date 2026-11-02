@@ -39,11 +39,11 @@ not a zero-downtime procedure. MySQL and persistent volumes were retained.
 
 | Check | Recorded result | Evidence |
 | --- | --- | --- |
-| Image reference | Corrected published image selected | [Before](../evidence/security-image-before.txt), [after](../evidence/security-image-after.txt) |
-| CLI versions | PHP 8.3.35 -> 8.3.36; WordPress 7.1.2 -> 7.1.3 | [Before](../evidence/security-versions-before.txt), [after](../evidence/security-versions-after.txt) |
-| Resources | WordPress Pod replaced; MySQL unchanged; PVC bindings retained | [Before](../evidence/security-resources-before.txt), [after](../evidence/security-resources-after.txt) |
-| Uploaded files | SHA-256 hashes matched | [Before](../evidence/security-uploads-before.txt), [after](../evidence/security-uploads-after.txt) |
-| Log sample | Reviewed 60-line sample showed HTTP 200 and no visible PHP errors | [Post-update log](../evidence/security-wordpress-after.log) |
+| Image reference | Corrected published image selected | [Before](../evidence/security-image/security-image-before.txt), [after](../evidence/security-image/security-image-after.txt) |
+| CLI versions | PHP 8.3.35 -> 8.3.36; WordPress 7.1.2 -> 7.1.3 | [Before](../evidence/security-image/security-versions-before.txt), [after](../evidence/security-image/security-versions-after.txt) |
+| Resources | WordPress Pod replaced; MySQL unchanged; PVC bindings retained | [Before](../evidence/security-image/security-resources-before.txt), [after](../evidence/security-image/security-resources-after.txt) |
+| Uploaded files | SHA-256 hashes matched | [Before](../evidence/security-image/security-uploads-before.txt), [after](../evidence/security-image/security-uploads-after.txt) |
+| Log sample | Reviewed 60-line sample showed HTTP 200 and no visible PHP errors | [Post-update log](../evidence/security-image/security-wordpress-after.log) |
 
 Manual browser checks confirmed PHP 8.3.36, Apache 2.4.69 and the original
 article/image. These observations are recorded in the lab guide; they are

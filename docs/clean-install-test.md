@@ -22,9 +22,9 @@ Namespace: wordpress-check-clean
 Result: PASS for this fresh installation.
 
 ## Evidence
-- evidence/mysql-init-clean.log
-- evidence/mysql-clean-pods.txt
-- evidence/clean-install-resources.txt
+- [mysql-init-clean.log](evidence/mysql-initialization/mysql-init-clean.log)
+- [mysql-clean-pods.txt](evidence/mysql-initialization/mysql-clean-pods.txt)
+- [clean-install-resources.txt](evidence/clean-install/clean-install-resources.txt)
 
 ## Subsequent follow-up
 Installation instructions are available through the [delivery guide](delivery-workflow.md).

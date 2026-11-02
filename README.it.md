@@ -55,7 +55,7 @@ inclusi nel runbook, insieme ai casi MySQL, immagine assente e Ingress.
 
 Il manifest iniziale è in [k8s/](k8s/stack.yaml); il packaging riutilizzabile
 è in [charts/](charts/kiratech-wordpress/). I laboratori sono in labs/,
-le procedure e i rapporti in docs/, gli output registrati in docs/evidence/.
+le procedure e i rapporti in docs/, gli output registrati nella [guida alle evidenze](docs/evidence/README.md).
 
 ## Installazione da zero
 

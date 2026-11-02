@@ -7,7 +7,7 @@
 - Purpose: inspect Dockerfiles and container startup configuration.
 - Selected published WordPress image digests: see the
   [security lab manifests](../labs/security/README.md#images-and-observed-versions)
-  and [before](evidence/security-image-before.txt) / [after](evidence/security-image-after.txt) evidence.
+  and [before](evidence/security-image/security-image-before.txt) / [after](evidence/security-image/security-image-after.txt) evidence.
 - Selected PHP base digests and build changes: see the
   [custom-image lab](../labs/security-build/README.md#upstream-origin-and-modifications).
 

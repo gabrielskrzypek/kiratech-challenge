@@ -2,7 +2,8 @@
 
 Start with the project overview in [English](../README.md) or
 [Italian](../README.it.md). This map groups documents by purpose; evidence
-and source paths are retained so existing references remain valid.
+and source material are linked below. Evidence is grouped by scenario, with
+an ordered index inside each folder.
 
 ## Reading order
 
@@ -36,8 +37,8 @@ correction and evidence; linked lab guides retain full reproduction procedures.
 
 | Runbook case | Investigation and correction | Detailed record | Evidence |
 | --- | --- | --- | --- |
-| 1. MySQL initialization | HTTP 500 / error 1045; reproduce initialization failure with trailing-LF credentials and compare a corrected fresh installation | [MySQL incident](incidents/mysql-initialization.md) | [Failed initialization](evidence/mysql-init-failed.log), [clean initialization](evidence/mysql-init-clean.log) |
-| 2. Published-image patch | Identify affected PHP; replace the published WordPress image and verify runtime, content and storage | [Published-image incident](incidents/php-security-image-update.md) | [Versions before](evidence/security-versions-before.txt), [after](evidence/security-versions-after.txt); other security-* files in evidence/ |
+| 1. MySQL initialization | HTTP 500 / error 1045; reproduce initialization failure with trailing-LF credentials and compare a corrected fresh installation | [MySQL incident](incidents/mysql-initialization.md) | [Failed initialization](evidence/mysql-initialization/mysql-init-failed.log), [clean initialization](evidence/mysql-initialization/mysql-init-clean.log) |
+| 2. Published-image patch | Identify affected PHP; replace the published WordPress image and verify runtime, content and storage | [Published-image incident](incidents/php-security-image-update.md) | [Versions before](evidence/security-image/security-versions-before.txt), [after](evidence/security-image/security-versions-after.txt); [complete evidence index](evidence/security-image/README.md) |
 | 3. Custom-image patch with Helm | Inspect FROM, change the pinned PHP/Apache base, rebuild and deploy through Helm values | [Custom-build incident](incidents/php-security-custom-build.md) | [Build/upgrade evidence](evidence/security-build/) |
 | 4. Missing image | ErrImageNeverPull caused by a nonexistent local image tag with Never policy; recover the intended image and Helm state | [Missing-image incident](incidents/image-not-available.md) | [Image incident evidence](evidence/image-missing/) |
 | 5. Ingress routing | Ready application but HTTP 503; identify a mismatched Service selector and empty endpoints, then restore routing | [Ingress incident](incidents/ingress-service-selector.md) | [Routing evidence](evidence/ingress-selector/) |
@@ -64,7 +65,7 @@ observations, not additional independently validated vulnerability cases.
 - [Sources](sources.md): upstream origin and subject-specific references.
 - [Work log](work-log.md): chronological implementation, troubleshooting and
   verification record, with links to detailed reports and evidence.
-- [Evidence directory](evidence/): recorded outputs; do not overwrite them to match later documentation.
+- [Evidence reading guide](evidence/README.md): grouped captures with an ordered index for every test and incident.
 
 The security labs demonstrate version/configuration assessment and remediation,
 not exploitation. Backup restoration, high availability and a complete new-machine

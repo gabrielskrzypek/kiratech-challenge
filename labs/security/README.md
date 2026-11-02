@@ -131,7 +131,8 @@ A brief interruption is expected during replacement.
 - The reviewed 60-line log sample contained HTTP 200 responses and no
   visible PHP errors.
 
-Evidence files are under docs/evidence/security-* from the repository root.
+See the [ordered evidence index](../../docs/evidence/security-image/README.md)
+for before/after versions, image references, resources, upload hashes and logs.
 Browser checks were manual.
 
 ## Recovery and escalation

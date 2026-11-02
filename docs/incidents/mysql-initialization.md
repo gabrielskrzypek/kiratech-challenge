@@ -55,9 +55,9 @@ Existing installations require a coordinated password change and validation.
 Before rebuilding a database containing valuable data, create and verify a backup.
 
 ## Evidence
-- ../evidence/mysql-init-failed.log
-- ../evidence/mysql-init-clean.log
-- ../evidence/mysql-clean-pods.txt
+- [mysql-init-failed.log](../evidence/mysql-initialization/mysql-init-failed.log)
+- [mysql-init-clean.log](../evidence/mysql-initialization/mysql-init-clean.log)
+- [mysql-clean-pods.txt](../evidence/mysql-initialization/mysql-clean-pods.txt)
 
 ## Completed follow-up checks
 - Fresh WordPress installation with corrected credentials: see ../clean-install-test.md.

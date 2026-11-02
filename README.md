@@ -55,7 +55,7 @@ runbook alongside the MySQL, missing-image and Ingress cases.
 
 The original manifest is in [k8s/](k8s/stack.yaml); reusable packaging is in
 [charts/](charts/kiratech-wordpress/). Labs are in labs/, procedures and
-reports in docs/, and recorded outputs in docs/evidence/.
+reports in docs/, and recorded outputs in the [evidence reading guide](docs/evidence/README.md).
 
 ## Installation from scratch
 
