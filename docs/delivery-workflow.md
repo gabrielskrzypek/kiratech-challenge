@@ -61,7 +61,8 @@ For an installation using the corrected image directly, select
 values-patched.yaml instead of values-affected.yaml at installation.
 The affected configuration is retained for deliberate lab reproduction.
 
-For an existing installation, use the resume commands in the root README.
+For an existing installation, follow the [cluster-resume checks](demo.md#2-cluster-preparation)
+and [application-access steps](demo.md#5-application-access) in the demonstration guide.
 Do not regenerate database credentials against initialized storage.
 
 ## Workflow actually executed

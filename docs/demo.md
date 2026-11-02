@@ -125,18 +125,37 @@ If the baseline differs, stop and choose a matching restoration value before
 proceeding. Check the lab's backup procedure before modifying retained data-bearing
 workloads. This change replaces the WordPress Pod and Recreate interrupts
 access. The [verified run](demo-change-test.md) changed 100m to 150m and back
-to 100m, using a captured copy of the active Helm values. The commands below
-use the documented corrected-image configuration.
+to 100m, using a captured copy of the active Helm values. Preserve those values
+for both upgrades rather than replacing existing overrides with lab defaults.
+Run the following commands in the same terminal. The values capture stays in
+ignored local storage and must not be displayed or committed.
 
 ```bash
-helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values labs/security-build/values-patched.yaml --set wordpress.resources.requests.cpu=150m --wait --timeout 5m
+umask 077
+mkdir -p .local
+demo_values=$(mktemp .local/demo-values.XXXXXX.yaml)
+helm get values patch-lab --kube-context kiratech -n wordpress-build --all --output yaml > "$demo_values"
+```
+
+Stop if the export fails or the file is empty. Inspect the proposed manifests
+privately before applying; the current chart may differ from the installed
+chart, so restoring the CPU request does not roll back every chart change.
+
+```bash
+test -s "$demo_values" && helm template patch-lab charts/kiratech-wordpress --namespace wordpress-build --values "$demo_values" --set wordpress.resources.requests.cpu=150m > .local/demo-proposed.yaml
+```
+
+After checking the rendered configuration, apply the change:
+
+```bash
+helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values "$demo_values" --set wordpress.resources.requests.cpu=150m --wait --timeout 5m
 kubectl --context=kiratech -n wordpress-build get deployment patch-lab-wordpress -o jsonpath='{.spec.template.spec.containers[0].resources.requests.cpu}{"\n"}'
 ```
 
 Expected: request `150m`, Deployment available, content retained. Restore `100m`:
 
 ```bash
-helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values labs/security-build/values-patched.yaml --set wordpress.resources.requests.cpu=100m --wait --timeout 5m
+helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values "$demo_values" --set wordpress.resources.requests.cpu=100m --wait --timeout 5m
 kubectl --context=kiratech -n wordpress-build get deployments,pods,pvc
 ```
 
