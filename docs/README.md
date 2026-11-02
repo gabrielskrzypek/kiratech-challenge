@@ -48,6 +48,7 @@ of each functional test.
 | [Clean installation](clean-install-test.md) | Fresh credentials/PVCs, automatic MySQL initialization and WordPress setup |
 | [Persistence](persistence-test.md) | Article and image retained after separate WordPress/MySQL Pod replacement |
 | [Clean checkout](fresh-checkout-test.md) | Install, application checks and removal using a fresh clone and existing cluster/images |
+| [Demo resource change](demo-change-test.md) | CPU request 100m → 150m → 100m, retained image/uploads/volumes and direct HTTP/content checks |
 
 Read each report before its raw captures. The [evidence index](evidence/README.md)
 links the scenario folders and explains how to follow them.

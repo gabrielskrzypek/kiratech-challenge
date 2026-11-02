@@ -3,9 +3,9 @@
 Updated: 2026-11-02. Suggested presentation: 15–20 minutes after preparation.
 Run commands from the repository root in Ubuntu WSL.
 
-This is a presentation procedure, not a new test report. Existing evidence
-records the executed labs; the full sequence below, including the resource
-change in step 7, has not been executed as a rehearsal.
+The complete presentation sequence has not been rehearsed. The resource
+change and restoration in step 7 were verified on 2026-11-02; see the
+[verification report](demo-change-test.md) and its session capture.
 
 ## Prepare the scope
 
@@ -123,8 +123,10 @@ kubectl --context=kiratech describe node kiratech
 
 If the baseline differs, stop and choose a matching restoration value before
 proceeding. Check the lab's backup procedure before modifying retained data-bearing
-workloads. This planned example changes the Pod template and replaces WordPress;
-Recreate interrupts access. It is guidance, not a previously recorded result.
+workloads. This change replaces the WordPress Pod and Recreate interrupts
+access. The [verified run](demo-change-test.md) changed 100m to 150m and back
+to 100m, using a captured copy of the active Helm values. The commands below
+use the documented corrected-image configuration.
 
 ```bash
 helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values labs/security-build/values-patched.yaml --set wordpress.resources.requests.cpu=150m --wait --timeout 5m

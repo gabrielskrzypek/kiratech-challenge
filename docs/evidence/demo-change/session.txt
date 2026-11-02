@@ -1,0 +1,129 @@
+gabri@DESKTOP-G4UK84R:~/projects/kiratech-challenge$ (
+set -euo pipefail
+cd ~/projects/kiratech-challenge
+umask 077
+minikube start --profile kiratech
+
+out=".local/demo-validation-$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$out"
+
+k() { kubectl --context=kiratech -n wordpress-build "$@"; }
+cpu() { k get deployment patch-lab-wordpress -o jsonpath='{.spec.template.spec.containers[0].resources.requests.cpu}'; }
+image() { k get deployment patch-lab-wordpress -o jsonpath='{.spec.template.spec.containers[0].image}'; }
+uploads() { k exec deployment/patch-lab-wordpress -- sh -c 'find /var/www/html/wp-content/uploads -type f -exec sha256sum {} \; | sort'; }
+volumes() { k get pvc -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.metadata.uid}{" "}{.spec.volumeName}{" "}{.status.phase}{"\n"}{end}' | sort; }
+upgrade() { helm upgrade patch-lab charts/kiratech-wordpress --kube-context kiratech -n wordpress-build --values "$out/values-before.yaml" --set "wordpress.resources.requests.cpu=$1" --wait --timeout 5m; }
+
+helm status patch-lab --kube-context kiratech -n wordpress-build -o json > "$out/helm-before.json"
+
+python3 - "$out/helm-before.json" <<'PY'
+import json, sys
+with open(sys.argv[1]) as source:
+    assert json.load(source)["info"]["status"] == "deployed", "Release is not deployed"
+PY
+
+k rollout status deployment/patch-lab-wordpress --timeout=120s
+test "$(cpu)" = 100m
+test "$(image)" = kiratech-wordpress:7.1.3-php8.3.36-lab
+
+helm get values patch-lab --kube-context kiratech -n wordpress-build --all -o yaml > "$out/values-before.yaml"
+uploads > "$out/uploads-before.sha256"
+test -s "$out/uploads-before.sha256"
+volumes > "$out/volumes-before.txt"
+k get deployments,pods,pvc > "$out/resources-before.txt"
+
+restore_needed=0
+cleanup() {
+  result=$?
+  trap - EXIT
+  if test "$restore_needed" = 1; then
+    if ! upgrade 100m > "$out/emergency-restore.txt" 2>&1; then
+      printf 'Restoration failed. Check %s/emergency-restore.txt\n' "$out" >&2
+      result=1
+    fi
+  fi
+  exit "$result"
+}
+trap cleanup EXIT
+
+restore_needed=1
+upgrade 150m | tee "$out/upgrade-150m.txt"
+test "$(cpu)" = 150m
+printf 'CPU request 150m: PASS\n' | tee "$out/cpu-change.txt"
+
+upgrade 100m | tee "$out/restore-100m.txt"
+test "$(cpu)" = 100m
+restore_needed=0
+printf 'CPU request restored to 100m: PASS\n' | tee "$out/cpu-restored.txt"
+test "$(image)" = kiratech-wordpress:7.1.3-php8.3.36-lab
+
+uploads > "$out/uploads-after.sha256"
+volumes > "$out/volumes-after.txt"
+diff -u "$out/uploads-before.sha256" "$out/uploads-after.sha256"
+diff -u "$out/volumes-before.txt" "$out/volumes-after.txt"
+
+k exec deployment/patch-lab-wordpress -- \
+  curl --fail --silent --show-error --max-time 20 \
+  --header 'Host: localhost:8083' \
+  --write-out '\nHTTP %{http_code}\n' \
+  http://127.0.0.1/ > "$out/page-after.txt"
+
+grep -Fq 'Custom image patch test' "$out/page-after.txt"
+test "$(tail -n 1 "$out/page-after.txt")" = 'HTTP 200'
+
+k get deployments,pods,pvc | tee "$out/resources-after.txt"
+helm history patch-lab --kube-context kiratech -n wordpress-build > "$out/helm-history.txt"
+
+printf 'PASS: CPU change/restoration, image, upload hashes, volume identities and direct application content.\nEvidence: %s\n' "$out" | tee "$out/result.txt"
+)
+😄  [kiratech] minikube v1.39.0 on Ubuntu 26.04 (kvm/amd64)
+🆕  Kubernetes 1.37.0 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.37.0
+✨  Using the docker driver based on existing profile
+👍  Starting "kiratech" primary control-plane node in "kiratech" cluster
+🚜  Pulling base image v0.0.51 ...
+🏃  Updating the running docker "kiratech" container ...
+📦  Preparing Kubernetes v1.36.1 on containerd 2.3.4 ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image registry.k8s.io/metrics-server/metrics-server:v0.9.0
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube -p kiratech addons enable metrics-server
+
+🌟  Enabled addons: storage-provisioner, default-storageclass, metrics-server, dashboard
+🏄  Done! kubectl is now configured to use "kiratech" cluster and "default" namespace by default
+deployment "patch-lab-wordpress" successfully rolled out
+Release "patch-lab" has been upgraded. Happy Helming!
+NAME: patch-lab
+LAST DEPLOYED: Mon Nov  2 17:24:01 2026
+NAMESPACE: wordpress-build
+STATUS: deployed
+REVISION: 3
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+CPU request 150m: PASS
+Release "patch-lab" has been upgraded. Happy Helming!
+NAME: patch-lab
+LAST DEPLOYED: Mon Nov  2 17:24:16 2026
+NAMESPACE: wordpress-build
+STATUS: deployed
+REVISION: 4
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+CPU request restored to 100m: PASS
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/patch-lab-mysql       1/1     1            1           5d5h
+deployment.apps/patch-lab-wordpress   1/1     1            1           5d5h
+
+NAME                                      READY   STATUS    RESTARTS        AGE
+pod/patch-lab-mysql-8487859c47-pfqhr      1/1     Running   5 (7h34m ago)   5d5h
+pod/patch-lab-wordpress-79c56d479-8stln   1/1     Running   0               9s
+
+NAME                                         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/patch-lab-content      Bound    pvc-7adad68f-b89f-44d9-bf71-b75371989305   2Gi        RWO            standard       <unset>                 5d5h
+persistentvolumeclaim/patch-lab-mysql-data   Bound    pvc-b598d5d2-07bc-498c-b4a3-849aa7f85352   2Gi        RWO            standard       <unset>                 5d5h
+PASS: CPU change/restoration, image, upload hashes, volume identities and direct application content.
+Evidence: .local/demo-validation-20261102-172358
+gabri@DESKTOP-G4UK84R:~/projects/kiratech-challenge$

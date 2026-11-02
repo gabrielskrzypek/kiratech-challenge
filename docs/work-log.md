@@ -263,6 +263,21 @@ Records: [Ingress guide](../labs/ingress/README.md),
   resource-change example and ConfigMap procedure have not been executed
   against the cluster; existing evidence remains unchanged.
 
+## 2026-11-02 — Demo resource-change verification
+
+- Verified the custom-image release with CPU request 100m before the change.
+- Captured active Helm values and used them with the current chart for both upgrades.
+- Changed the WordPress CPU request to 150m: Helm revision 3 deployed.
+- Restored the request to 100m: revision 4 deployed.
+- Confirmed the corrected image reference, unchanged upload hashes and
+  unchanged PVC identities/volume bindings.
+- Checked direct application HTTP 200 and the expected article title.
+- Final Deployments were available and the WordPress Pod was Ready with zero restarts.
+- Added the [test report](demo-change-test.md) and the submitted
+  [session capture](evidence/demo-change/README.md), then updated the demo guide.
+- This verifies the resource-change step; the full presentation sequence
+  has not been rehearsed. CPU restoration did not roll back the chart version.
+
 ## Verification boundaries retained
 
 - Security work assessed versions/configuration and verified remediation;

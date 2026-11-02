@@ -25,6 +25,7 @@ PHP issue, not two independently demonstrated exploits.
 | Pod-replacement persistence | [Report](../persistence-test.md) | [Before, after WordPress, after MySQL](persistence/README.md) |
 | Clean-checkout installation/removal | [Report](../fresh-checkout-test.md) | [Source through cleanup](fresh-checkout/README.md) |
 | Ingress setup and final checks | [Lab guide](../../labs/ingress/README.md) | [Probe/Helm recovery and final verification](ingress/README.md) |
+| Demo resource change | [Report](../demo-change-test.md) | [CPU change/restoration and final checks](demo-change/README.md) |
 
 ## How to interpret these files
 
