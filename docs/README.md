@@ -1,74 +1,67 @@
-# Documentation map
+# Project documentation
 
-Start with the project overview in [English](../README.md) or
-[Italian](../README.it.md). This map groups documents by purpose; evidence
-and source material are linked below. Evidence is grouped by scenario, with
-an ordered index inside each folder.
+[Project overview: English](../README.md) · [Italiano](../README.it.md)
 
-## Reading order
+## Start here
 
-1. [Architecture](architecture.md): components, persistence and the separate
-   direct-access / Ingress diagrams.
-2. [Installation entry point](delivery-workflow.md): prerequisites and the
-   route to a new installation, distinct from resuming existing labs.
-3. [L2 runbook](runbook.md): all five troubleshooting and remediation cases,
-   including both security-update paths.
-4. The relevant detailed report or lab below for reproduction and evidence.
-5. [Demonstration guide](demo.md): presentation order, commands and verification boundaries.
-6. [Krateo proposal](krateo-proposal.md) and [AI usage](ai-usage.md) for the
-   proposal and verification boundaries.
+For a first review, read the architecture, then one incident and its evidence.
+For a live walkthrough, use the demonstration guide.
 
-## Implementation and installation
+| I want to… | Open | What it contains |
+| --- | --- | --- |
+| Understand the application | [Architecture](architecture.md) | Components, deployment names, storage and traffic diagrams |
+| Install a fresh instance | [Installation entry point](delivery-workflow.md) | Clone, tool checks and the route through cluster setup and the lab procedure |
+| Investigate a problem | [L2 runbook](runbook.md) | Initial checks, five cases, correction and escalation |
+| Review the troubleshooting work | [Incident catalogue](incidents/README.md) | Symptoms, causes, corrections and evidence for each case |
+| Present the project | [Demonstration guide](demo.md) | Walkthrough commands, expected results and a reversible change |
+| Inspect original outputs | [Evidence index](evidence/README.md) | Captures grouped by scenario, each with a reading order |
 
-| Resource | Role |
+## Installation and lab procedures
+
+These documents explain **how to perform the work**. Start with the installation
+entry point above; it connects the setup and build instructions in order.
+
+| Procedure | Use it for |
 | --- | --- |
-| [Local setup](local-setup.md) | Initial cluster setup and dated environment observations |
-| [Original stack](../k8s/stack.yaml) | Original WordPress/MySQL deployment with fixed resource names |
-| [Helm chart](../charts/kiratech-wordpress/) | Reusable templates and defaults; optional Ingress in 0.2.0 |
-| [Delivery workflow](delivery-workflow.md) | Clone, tool checks, installation entry point and separately labelled CI/CD proposal |
-| [Demonstration guide](demo.md) | Eleven-step presentation, reversible change and cleanup explanation |
-| [Custom-image guide](../labs/security-build/README.md) | Build/load, credentials, Helm install, backup, upgrade and removal |
-| [Ingress guide](../labs/ingress/README.md) | Controller installation, hostname access, routing fault and recovery |
+| [Local setup](local-setup.md) | Prepare Minikube and check the cluster and storage |
+| [Custom-image and Helm lab](../labs/security-build/README.md) | Build/load images; prepare credentials; install, back up, upgrade, verify and remove |
+| [Published-image lab](../labs/security/README.md) | Reproduce correction by replacing the published WordPress image |
+| [Ingress lab](../labs/ingress/README.md) | Set up Traefik, hostname access, selector fault and recovery |
+
+The implementation files are the [original manifest](../k8s/stack.yaml) and
+[Helm chart](../charts/kiratech-wordpress/). Lab override files live beside
+their procedures under [labs/](../labs/).
 
 ## Troubleshooting and security remediation
 
-The runbook numbers follow the order in which the cases were developed.
-The two security cases share a finding but demonstrate different correction paths.
-All five reports are in [incidents/](incidents/). Reports summarize diagnosis,
-correction and evidence; linked lab guides retain full reproduction procedures.
-
-| Runbook case | Investigation and correction | Detailed record | Evidence |
-| --- | --- | --- | --- |
-| 1. MySQL initialization | HTTP 500 / error 1045; reproduce initialization failure with trailing-LF credentials and compare a corrected fresh installation | [MySQL incident](incidents/mysql-initialization.md) | [Failed initialization](evidence/mysql-initialization/mysql-init-failed.log), [clean initialization](evidence/mysql-initialization/mysql-init-clean.log) |
-| 2. Published-image patch | Identify affected PHP; replace the published WordPress image and verify runtime, content and storage | [Published-image incident](incidents/php-security-image-update.md) | [Versions before](evidence/security-image/security-versions-before.txt), [after](evidence/security-image/security-versions-after.txt); [complete evidence index](evidence/security-image/README.md) |
-| 3. Custom-image patch with Helm | Inspect FROM, change the pinned PHP/Apache base, rebuild and deploy through Helm values | [Custom-build incident](incidents/php-security-custom-build.md) | [Build/upgrade evidence](evidence/security-build/) |
-| 4. Missing image | ErrImageNeverPull caused by a nonexistent local image tag with Never policy; recover the intended image and Helm state | [Missing-image incident](incidents/image-not-available.md) | [Image incident evidence](evidence/image-missing/) |
-| 5. Ingress routing | Ready application but HTTP 503; identify a mismatched Service selector and empty endpoints, then restore routing | [Ingress incident](incidents/ingress-service-selector.md) | [Routing evidence](evidence/ingress-selector/) |
-
-The Ingress guide also records actual setup problems: chart value paths,
-probe timeouts and an interrupted Helm installation. These are supporting
-observations, not additional independently validated vulnerability cases.
+The [incident catalogue](incidents/README.md) groups all five cases by symptom
+and correction, with links to the reports and evidence. The [runbook](runbook.md)
+provides the diagnostic commands and recovery guidance.
 
 ## Verification reports
 
-| Report | What was verified |
+These reports describe **what was actually checked**, with the scope and result
+of each functional test.
+
+| Report | Verified scope |
 | --- | --- |
-| [Clean installation](clean-install-test.md) | Fresh credentials/storage, automatic MySQL setup and WordPress installation |
-| [Persistence](persistence-test.md) | Article and image survival after separate WordPress/MySQL Pod replacement |
-| [Clean checkout](fresh-checkout-test.md) | New local clone, credentials/PVCs, install, application checks and removal; existing cluster/images reused |
-| [Ingress smoke script](../labs/ingress/smoke-test.sh) | HTTP 200 and expected page text; successful execution recorded after recovery |
+| [Clean installation](clean-install-test.md) | Fresh credentials/PVCs, automatic MySQL initialization and WordPress setup |
+| [Persistence](persistence-test.md) | Article and image retained after separate WordPress/MySQL Pod replacement |
+| [Clean checkout](fresh-checkout-test.md) | Install, application checks and removal using a fresh clone and existing cluster/images |
 
-## Design, provenance and limitations
+Read each report before its raw captures. The [evidence index](evidence/README.md)
+links the scenario folders and explains how to follow them.
 
-- [Architecture](architecture.md): component responsibilities and access paths.
-- [Krateo proposal](krateo-proposal.md): conceptual integration, not deployed.
-- [Delivery workflow](delivery-workflow.md#proposed-cicd-workflow): proposed pipeline, not implemented.
-- [AI usage](ai-usage.md): assistance, candidate verification and corrections.
-- [Sources](sources.md): upstream origin and subject-specific references.
-- [Work log](work-log.md): chronological implementation, troubleshooting and
-  verification record, with links to detailed reports and evidence.
-- [Evidence reading guide](evidence/README.md): grouped captures with an ordered index for every test and incident.
+## Project record and proposals
 
-The security labs demonstrate version/configuration assessment and remediation,
-not exploitation. Backup restoration, high availability and a complete new-machine
-rebuild were not verified. Each report preserves its specific limitations.
+| Document | Purpose |
+| --- | --- |
+| [Work log](work-log.md) | Chronology and links to the work performed |
+| [Sources](sources.md) | Upstream packaging, advisories and official references |
+| [AI assistance](ai-usage.md) | Assistance received, verification and corrections |
+| [Krateo proposal](krateo-proposal.md) | Conceptual platform integration; not deployed |
+| [CI/CD proposal](delivery-workflow.md#proposed-cicd-workflow) | Proposed delivery pipeline; not implemented |
+
+Each lab/report states its limits. A documented procedure is not, by itself,
+evidence that every step was executed. The demonstration guide includes new
+steps that have not been run as a complete sequence.
