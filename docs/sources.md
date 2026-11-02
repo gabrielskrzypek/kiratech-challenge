@@ -1,5 +1,14 @@
 # Sources
 
+## Application source and operational guidance
+
+- WordPress application source mirror: https://github.com/WordPress/WordPress
+- Helm installation and binary verification: https://helm.sh/docs/intro/install/
+- ConfigMap update behavior: https://kubernetes.io/docs/tutorials/configuration/updating-configuration-via-a-configmap/
+
+These references were checked for the documentation review on 2026-11-02.
+The application mirror is distinct from the image-packaging source below.
+
 ## WordPress Docker image packaging
 
 - Repository: https://github.com/docker-library/wordpress

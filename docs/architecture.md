@@ -145,6 +145,15 @@ Local credential files and backups are excluded from Git.
 These values are injected as environment variables when a container starts;
 editing a Secret does not automatically change a running process or a MySQL
 account password. Database account changes require coordinated handling.
+
+ConfigMap values have the same startup-only environment behavior. A ConfigMap-only
+Helm upgrade does not change the Pod template; this chart has no checksum
+annotation to trigger a rollout. A reviewed configuration update therefore
+requires an explicit restart of affected consumers, followed by verification.
+Database names, users and passwords also require changes to the initialized
+database itself; restarts do not migrate them. See the
+[configuration-update procedure](runbook.md#configuration-updates-and-running-pods).
+
 The labs use automatic-update disabling only for controlled image comparisons.
 
 ## Storage

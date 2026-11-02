@@ -4,7 +4,21 @@
 
 WordPress and MySQL deployed on local Kubernetes, with persistent storage, health checks, custom container images, a Helm chart and documented troubleshooting.
 
-**Status as of 30 October 2026:** lab implementation and documentation completed and published, including Ingress. Linked reports distinguish executed checks from limitations; demonstration preparation is separate.
+**Status as of 2 November 2026:** lab implementation and documentation completed and published, including Ingress. Linked reports distinguish executed checks from limitations; demonstration preparation is separate.
+
+## Why WordPress
+
+I chose WordPress because a web application with a separate database and
+uploaded files makes configuration, dependency failures and persistence
+visible in a small local lab. A reported security issue affecting an image's
+PHP runtime also provided a concrete investigation and remediation scenario,
+following the senior's suggestion. This led to two correction paths: replacing
+the published image and rebuilding the packaging with a corrected base.
+
+WordPress is the existing application; this project adapts its deployment
+and operations. The [WordPress source mirror](https://github.com/WordPress/WordPress)
+is separate from [docker-library/wordpress](https://github.com/docker-library/wordpress),
+the image-packaging repository inspected and adapted for the custom build.
 
 ## Architecture
 
@@ -49,6 +63,7 @@ runbook alongside the MySQL, missing-image and Ingress cases.
 | --- | --- |
 | Understand components and traffic | [Architecture and diagrams](docs/architecture.md) |
 | Install the project | [Installation guide](docs/delivery-workflow.md) |
+| Present the project | [Step-by-step demonstration](docs/demo.md) |
 | Diagnose and correct a problem | [L2 runbook: five cases](docs/runbook.md) |
 | Reproduce labs and inspect evidence | [Complete documentation map](docs/README.md) |
 | Review proposals and method | [Krateo](docs/krateo-proposal.md), [proposed pipeline](docs/delivery-workflow.md#proposed-cicd-workflow), [AI usage](docs/ai-usage.md) |
@@ -123,8 +138,9 @@ Storage is local to the Minikube node. Deleting PVCs or the cluster can cause da
 
 ## Demonstration preparation
 
-- Rehearse the L2 runbook and the documented operational scenarios.
-- Prepare the technical demonstration using the published repository.
+Follow the [demonstration guide](docs/demo.md) for commands, expected results,
+a small reversible change and the distinction between live checks and recorded evidence.
+The guide is a procedure; its new sequence has not been executed as a full rehearsal.
 
 ## AI assistance
 
@@ -134,6 +150,7 @@ See [AI usage and manual verification](docs/ai-usage.md) for the assistance rece
 
 ## Software origin
 
+- Application source mirror: https://github.com/WordPress/WordPress
 - Image packaging: https://github.com/docker-library/wordpress
 - Adapted Kubernetes example: https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
 

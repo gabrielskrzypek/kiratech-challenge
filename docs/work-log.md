@@ -243,6 +243,26 @@ Records: [Ingress guide](../labs/ingress/README.md),
 - This was a documentation correction; no cluster operations, new exploitation
   tests or additional deployment verification were performed.
 
+## 2026-11-02 — Delivery documentation follow-up
+
+- Added the WordPress choice rationale, including the reported image-runtime
+  security issue and the senior's suggestion, to both language overviews.
+- Distinguished the WordPress application source mirror from its Docker
+  image-packaging repository.
+- Added repository cloning and tool preflight commands to the installation
+  entry point, with the official Helm installation/verification reference.
+- Added an eleven-step demonstration guide covering installation, access,
+  diagnostics, a reversible resource change, recovery and removal boundaries,
+  Krateo and AI verification.
+- Documented the chart's startup-only ConfigMap environment behavior and
+  explicit restart procedure, including initialized-database constraints.
+- Updated overview dates and the conceptual Krateo example to chart 0.2.0.
+- Checked relative Markdown paths/anchors, Bash-block syntax and Git whitespace;
+  the patch was also checked and applied to a clean copy of its base revision.
+- These changes are documentation only. The new demonstration sequence,
+  resource-change example and ConfigMap procedure have not been executed
+  against the cluster; existing evidence remains unchanged.
+
 ## Verification boundaries retained
 
 - Security work assessed versions/configuration and verified remediation;

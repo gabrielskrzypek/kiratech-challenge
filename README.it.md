@@ -4,7 +4,22 @@
 
 WordPress e MySQL distribuiti su Kubernetes locale, con storage persistente, controlli di salute, immagini personalizzate, un chart Helm e troubleshooting documentato.
 
-**Stato al 30 ottobre 2026:** implementazione e documentazione dei laboratori completate e pubblicate, incluso Ingress. Le verifiche eseguite e i relativi limiti sono riportati nei documenti collegati; la preparazione della dimostrazione è separata.
+**Stato al 2 novembre 2026:** implementazione e documentazione dei laboratori completate e pubblicate, incluso Ingress. Le verifiche eseguite e i relativi limiti sono riportati nei documenti collegati; la preparazione della dimostrazione è separata.
+
+## Perché WordPress
+
+Ho scelto WordPress perché un'applicazione web con database separato e file
+caricati rende osservabili configurazione, problemi delle dipendenze e
+persistenza in un piccolo laboratorio locale. Un problema di sicurezza
+segnalato nel runtime PHP di un'immagine offriva inoltre un caso concreto
+di analisi e correzione, seguendo il suggerimento del senior. Sono stati
+quindi verificati due percorsi: sostituire l'immagine pubblicata e ricostruire
+il packaging usando una base corretta.
+
+WordPress è l'applicazione esistente; il progetto ne adatta deployment e
+procedure operative. Il [mirror del codice WordPress](https://github.com/WordPress/WordPress)
+è distinto da [docker-library/wordpress](https://github.com/docker-library/wordpress),
+il repository di packaging analizzato e adattato per la build personalizzata.
 
 ## Architettura
 
@@ -49,6 +64,7 @@ inclusi nel runbook, insieme ai casi MySQL, immagine assente e Ingress.
 | --- | --- |
 | Capire componenti e flussi | [Architettura e diagrammi](docs/architecture.md) |
 | Installare il progetto | [Guida di installazione](docs/delivery-workflow.md) |
+| Presentare il progetto | [Dimostrazione passo per passo](docs/demo.md) |
 | Diagnosticare e correggere un problema | [Runbook L2: cinque casi](docs/runbook.md) |
 | Riprodurre i laboratori e consultare le evidenze | [Mappa completa della documentazione](docs/README.md) |
 | Valutare le proposte e il metodo | [Krateo](docs/krateo-proposal.md), [pipeline proposta](docs/delivery-workflow.md#proposed-cicd-workflow), [utilizzo dell'IA](docs/ai-usage.md) |
@@ -124,8 +140,9 @@ Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare p
 
 ## Preparazione della dimostrazione
 
-- Provare il runbook L2 e gli scenari operativi documentati.
-- Preparare la dimostrazione tecnica usando il repository pubblicato.
+Seguire la [guida alla dimostrazione](docs/demo.md) per comandi, risultati attesi,
+una piccola modifica reversibile e la distinzione tra controlli dal vivo ed evidenze registrate.
+La guida è una procedura; la nuova sequenza non è stata eseguita come prova completa.
 
 ## Utilizzo dell'IA
 
@@ -135,6 +152,7 @@ Il [registro dell'utilizzo dell'IA e delle verifiche manuali](docs/ai-usage.md) 
 
 ## Origine del software
 
+- Mirror del codice applicativo: https://github.com/WordPress/WordPress
 - Packaging dell'immagine: https://github.com/docker-library/wordpress
 - Esempio Kubernetes adattato: https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
 

@@ -14,7 +14,8 @@ an ordered index inside each folder.
 3. [L2 runbook](runbook.md): all five troubleshooting and remediation cases,
    including both security-update paths.
 4. The relevant detailed report or lab below for reproduction and evidence.
-5. [Krateo proposal](krateo-proposal.md) and [AI usage](ai-usage.md) for the
+5. [Demonstration guide](demo.md): presentation order, commands and verification boundaries.
+6. [Krateo proposal](krateo-proposal.md) and [AI usage](ai-usage.md) for the
    proposal and verification boundaries.
 
 ## Implementation and installation
@@ -24,7 +25,8 @@ an ordered index inside each folder.
 | [Local setup](local-setup.md) | Initial cluster setup and dated environment observations |
 | [Original stack](../k8s/stack.yaml) | Original WordPress/MySQL deployment with fixed resource names |
 | [Helm chart](../charts/kiratech-wordpress/) | Reusable templates and defaults; optional Ingress in 0.2.0 |
-| [Delivery workflow](delivery-workflow.md) | Installation entry point and separately labelled CI/CD proposal |
+| [Delivery workflow](delivery-workflow.md) | Clone, tool checks, installation entry point and separately labelled CI/CD proposal |
+| [Demonstration guide](demo.md) | Eleven-step presentation, reversible change and cleanup explanation |
 | [Custom-image guide](../labs/security-build/README.md) | Build/load, credentials, Helm install, backup, upgrade and removal |
 | [Ingress guide](../labs/ingress/README.md) | Controller installation, hostname access, routing fault and recovery |
 

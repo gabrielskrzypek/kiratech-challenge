@@ -53,7 +53,8 @@ interface would be additional integration work.
 
 ## Illustrative request
 
-This is a design example, not an executable Krateo manifest:
+This is a design example using the current chart version, not an executable
+Krateo manifest or a published chart reference:
 
 ```yaml
 instanceName: wordpress-demo
@@ -64,7 +65,7 @@ source:
   revision: "<reviewed Git commit>"
 chart:
   name: kiratech-wordpress
-  version: "0.1.0"
+  version: "0.2.0"
 application:
   image: "<approved registry image pinned by digest>"
   existingSecret: mysql-credentials

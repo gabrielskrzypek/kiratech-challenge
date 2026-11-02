@@ -1,7 +1,7 @@
 # L2 support runbook — WordPress and MySQL
 
 Context: kiratech
-Last updated: 2026-10-30
+Last updated: 2026-11-02
 
 ## Scope and installations
 
@@ -85,6 +85,35 @@ previous container instance; do not treat its absence as a new application fault
 A TCP readiness check proves a listening port, not successful authentication.
 A failed startup probe can restart a container before readiness/liveness
 checks take over.
+
+## Configuration updates and running Pods
+
+In this chart, ConfigMap and Secret keys are consumed as environment variables
+when a container starts. A ConfigMap-only Helm change does not change the Pod
+template, and the chart has no configuration checksum annotation. Therefore,
+`helm upgrade --wait` can succeed while existing containers retain their old
+configuration. Inspect the rendered manifests and the live Deployment before
+assuming an automatic rollout.
+
+After a reviewed, compatible configuration change, explicitly restart only
+the affected Deployment and wait for its rollout. For example, for WordPress
+in the custom-image lab:
+
+```bash
+kubectl --context=kiratech -n wordpress-build rollout restart deployment/patch-lab-wordpress
+kubectl --context=kiratech -n wordpress-build rollout status deployment/patch-lab-wordpress --timeout=300s
+```
+
+Recreate causes an interruption. Coordinate changes affecting both consumers
+before restarting either. Changing `database.name`, `database.username` or a
+password is a database migration/account operation: MySQL initialization
+variables do not rename an existing database, create a replacement user or
+rotate a password on an initialized PVC. Reconcile the actual database and
+application configuration; a restart alone cannot perform that migration.
+Do not print credential values while inspecting configuration.
+
+This section documents the current chart behavior and a proposed procedure;
+no additional ConfigMap-change experiment was performed.
 
 ## Case 1 — MySQL initialization and authentication failure
 
