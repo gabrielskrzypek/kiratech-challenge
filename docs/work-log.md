@@ -248,7 +248,7 @@ Records: [Ingress guide](../labs/ingress/README.md),
 ## 2026-11-02 — Delivery documentation follow-up
 
 - Added the WordPress choice rationale, including the reported image-runtime
-  security issue and the senior's suggestion, to both language overviews.
+  security issue, to both language overviews.
 - Distinguished the WordPress application source mirror from its Docker
   image-packaging repository.
 - Added repository cloning and tool preflight commands to the installation

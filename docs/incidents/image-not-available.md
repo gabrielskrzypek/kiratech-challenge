@@ -227,7 +227,7 @@ before attributing it to a tool defect.
 
 AI helped propose the controlled failure, explain the difference between
 Helm timeout and container startup failure, and interpret the events.
-The candidate executed the commands and verified the outputs.
+Commands were executed manually and the outputs were verified.
 The rollback error was retained in the record rather than presented as
 a successful Helm operation.
 

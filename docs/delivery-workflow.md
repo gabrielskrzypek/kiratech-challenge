@@ -69,7 +69,7 @@ Do not regenerate database credentials against initialized storage.
 
 ## Workflow actually executed
 
-The candidate manually:
+I completed the following steps manually:
 - Reviewed upstream packaging and recorded its revision.
 - Adapted Dockerfiles and built the two custom images.
 - Checked versions and loaded images into minikube.

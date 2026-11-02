@@ -115,12 +115,12 @@ The separate wordpress-ingress installation uses Traefik; see
 
 | Resource | Helm application name | Responsibility |
 | --- | --- | --- |
-| WordPress Deployment / Service | <release>-wordpress | Run Apache/PHP/WordPress; select its frontend Pod on port 80 |
-| MySQL Deployment / Service | <release>-mysql | Run the database; expose internal SQL access on port 3306 |
-| ConfigMap | <release>-config | Database name, application username and MySQL Service hostname |
-| Content PVC | <release>-content | Request persistent WordPress content storage |
-| Database PVC | <release>-mysql-data | Request persistent MySQL storage |
-| Optional Ingress | <release>-wordpress | Host/path rule referencing the WordPress Service |
+| WordPress Deployment / Service | `<release>-wordpress` | Run Apache/PHP/WordPress; select its frontend Pod on port 80 |
+| MySQL Deployment / Service | `<release>-mysql` | Run the database; expose internal SQL access on port 3306 |
+| ConfigMap | `<release>-config` | Database name, application username and MySQL Service hostname |
+| Content PVC | `<release>-content` | Request persistent WordPress content storage |
+| Database PVC | `<release>-mysql-data` | Request persistent MySQL storage |
+| Optional Ingress | `<release>-wordpress` | Host/path rule referencing the WordPress Service |
 | Existing Secret | mysql-credentials by default | Supply database passwords; created separately from the chart |
 
 The application Helm release manages its chart resources. The namespace and
@@ -128,8 +128,8 @@ Secret are prepared separately. Traefik is a different Helm release and is
 not installed by the WordPress chart. Kubernetes creates ReplicaSets, Pods
 and EndpointSlices from the declared workloads and Services.
 
-Service selectors match app=wordpress, app.kubernetes.io/instance=<release>
-and tier=frontend or tier=mysql. The release label distinguishes installations
+Service selectors match `app=wordpress`, `app.kubernetes.io/instance=<release>`
+and `tier=frontend` or `tier=mysql`. The release label distinguishes installations
 using the chart. The original kubectl manifest instead uses fixed resource
 names and app/tier selectors.
 

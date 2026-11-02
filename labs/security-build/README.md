@@ -312,7 +312,7 @@ minikube stop --profile kiratech
 AI assisted with Dockerfile adaptation, chart generation, command proposals,
 explanations and documentation drafting.
 
-Commands were executed by the candidate. Results were checked using actual
+Commands were executed manually. Results were checked using actual
 terminal output and browser observations. Vendor advisories provide the
 version-based security assessment. No generated exploit or test results are
 presented as executed.
