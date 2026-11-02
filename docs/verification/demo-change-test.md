@@ -1,5 +1,7 @@
 # Demo resource-change verification
 
+[Verification reports](../README.md#verification-reports) · [Evidence index](../evidence/README.md)
+
 Date: 2026-11-02
 Context: kiratech
 Namespace: wordpress-build

@@ -1,5 +1,7 @@
 # L2 support runbook — WordPress and MySQL
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 Context: kiratech
 Last updated: 2026-11-02
 

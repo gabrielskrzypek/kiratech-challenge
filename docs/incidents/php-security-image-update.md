@@ -1,5 +1,7 @@
 # Affected PHP runtime — remediation using a published WordPress image
 
+[Incident catalogue](README.md) · [L2 runbook](../runbook.md)
+
 Execution date: 2026-10-27. Report consolidated: 2026-11-02.
 Context: kiratech. Namespace: wordpress-security. Deployment: wordpress.
 Runbook: [Case 2](../runbook.md#case-2--affected-php-runtime-replace-the-published-image).

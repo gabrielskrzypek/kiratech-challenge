@@ -1,5 +1,7 @@
 # MySQL initialization failure caused by trailing newlines in credentials
 
+[Incident catalogue](README.md) · [L2 runbook](../runbook.md)
+
 ## Symptoms
 - WordPress failed its startup probe and returned HTTP 500.
 - The PHP database connection test returned MySQL error 1045.

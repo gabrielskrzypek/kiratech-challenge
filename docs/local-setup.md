@@ -1,5 +1,7 @@
 # Local Kubernetes setup
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 ## Environment
 
 - Windows host with 16 GB RAM and Intel Core i7-9750H.

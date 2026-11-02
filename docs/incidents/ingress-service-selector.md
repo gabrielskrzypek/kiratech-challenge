@@ -1,5 +1,7 @@
 # Ingress HTTP 503 with a Ready WordPress Pod — incorrect Service selector
 
+[Incident catalogue](README.md) · [L2 runbook](../runbook.md)
+
 Execution date: 2026-10-30. Report consolidated: 2026-11-02.
 Context: kiratech. Application: ingress-lab in wordpress-ingress.
 Controller: traefik in ingress-system.

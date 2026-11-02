@@ -1,5 +1,7 @@
 # Installation and removal from a clean checkout
 
+[Verification reports](../README.md#verification-reports) · [Evidence index](../evidence/README.md)
+
 Date: 2026-10-29
 Source commit: 387eb17
 Context: kiratech

@@ -1,5 +1,7 @@
 # Incident: unavailable local image after a Helm upgrade
 
+[Incident catalogue](README.md) · [L2 runbook](../runbook.md)
+
 Date: 2026-10-29
 Context: kiratech
 Namespace: wordpress-troubleshooting

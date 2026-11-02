@@ -1,5 +1,7 @@
 # Application architecture
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 Reviewed against chart 0.2.0 and the recorded labs on 2026-11-02.
 This describes the implemented design and historical installations, not a
 live cluster inventory. All workloads use the kiratech context on a

@@ -1,5 +1,7 @@
 # AI assistance and verification
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 ## Scope
 
 AI was used as a learning and implementation assistant during this challenge.

@@ -1,5 +1,7 @@
 # Affected PHP base — custom image rebuild and Helm remediation
 
+[Incident catalogue](README.md) · [L2 runbook](../runbook.md)
+
 Build/installation date: 2026-10-28. Upgrade verification: 2026-10-29.
 Report consolidated: 2026-11-02. Context: kiratech.
 Namespace: wordpress-build. Release: patch-lab.

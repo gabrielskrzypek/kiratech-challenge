@@ -1,5 +1,7 @@
 # Installation entry point and delivery workflow
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 ## Start here
 
 This project requires Bash, Git, Python 3, Docker, kubectl, minikube and Helm.

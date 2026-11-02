@@ -1,5 +1,7 @@
 # Persistence verification
 
+[Verification reports](../README.md#verification-reports) · [Evidence index](../evidence/README.md)
+
 Date: 2026-10-27
 Context: kiratech
 Namespace: wordpress

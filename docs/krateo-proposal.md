@@ -1,5 +1,7 @@
 # Krateo integration proposal
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 ## Starting from the Helm lab
 
 In this project, installing WordPress means preparing a namespace and Secret,

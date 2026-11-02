@@ -1,5 +1,7 @@
 # Sources
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 ## Application source and operational guidance
 
 - WordPress application source mirror: https://github.com/WordPress/WordPress

@@ -1,5 +1,7 @@
 # Work log
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 Chronological record of implementation, troubleshooting and verification.
 Updated on 2026-11-02 to consolidate the missing sessions from the existing
 reports, evidence and Git history. No deployment tests were rerun for this update.

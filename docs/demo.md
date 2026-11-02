@@ -1,5 +1,7 @@
 # Technical demonstration guide
 
+[Documentation home](README.md) · [Project overview](../README.md)
+
 Updated: 2026-11-02. Suggested presentation: 15–20 minutes after preparation.
 Run commands from the repository root in Ubuntu WSL.
 
