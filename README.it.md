@@ -2,158 +2,93 @@
 
 [English](README.md) | **Italiano**
 
-WordPress e MySQL distribuiti su Kubernetes locale, con storage persistente, controlli di salute, immagini personalizzate, un chart Helm e troubleshooting documentato.
-
-**Stato al 2 novembre 2026:** implementazione e documentazione dei laboratori completate e pubblicate, incluso Ingress. Le verifiche eseguite e i relativi limiti sono riportati nei documenti collegati; la preparazione della dimostrazione è separata.
+WordPress e MySQL su Kubernetes locale: deployment, persistenza, correzione
+di problemi di sicurezza e troubleshooting operativo, con evidenze registrate.
 
 ## Perché WordPress
 
-Ho scelto WordPress perché un'applicazione web con database separato e file
-caricati rende osservabili configurazione, problemi delle dipendenze e
-persistenza in un piccolo laboratorio locale. Un problema di sicurezza
-segnalato nel runtime PHP di un'immagine offriva inoltre un caso concreto
-di analisi e correzione, seguendo il suggerimento del senior. Sono stati
-quindi verificati due percorsi: sostituire l'immagine pubblicata e ricostruire
-il packaging usando una base corretta.
+Ho scelto WordPress perché il livello web, il database separato e i file
+caricati permettono di verificare configurazione, problemi delle dipendenze
+e persistenza. La scelta è stata motivata anche da un problema di sicurezza
+segnalato recentemente nel runtime PHP di un'immagine WordPress, seguendo
+il suggerimento del senior.
 
-WordPress è l'applicazione esistente; il progetto ne adatta deployment e
-procedure operative. Il [mirror del codice WordPress](https://github.com/WordPress/WordPress)
-è distinto da [docker-library/wordpress](https://github.com/docker-library/wordpress),
-il repository di packaging analizzato e adattato per la build personalizzata.
+Il lavoro sulla sicurezza comprende due percorsi: sostituire l'immagine
+pubblicata e analizzare il Dockerfile per ricostruirla con una base PHP/Apache
+corretta. WordPress è l'applicazione esistente; docker-library/wordpress
+fornisce il packaging dell'immagine adattato nel progetto. Non è stato
+sviluppato un nuovo CMS.
 
-## Architettura
+## Architettura e ambiente
 
-WordPress è un CMS open source esistente. Il suo container comprende Apache e PHP e comunica con MySQL tramite un Service interno.
+WordPress usa Apache/PHP e comunica con MySQL tramite un Service interno.
+Il manifest Kubernetes iniziale è stato poi adattato in un chart Helm con
+nomi specifici della release e configurazione tramite values.
 
-- Due Deployment, ciascuno con una replica e strategia Recreate.
-- Configurazione tramite ConfigMap e credenziali tramite Secret.
-- Due PVC: dati MySQL in /var/lib/mysql e contenuti WordPress in /var/www/html/wp-content.
-- Accesso locale tramite port-forward diretto e laboratorio Ingress opzionale con Traefik.
-- Startup, readiness e liveness probe.
-- Richieste e limiti di CPU e memoria.
+- Due Deployment con una replica e strategia Recreate, probe di salute e richieste/limiti di risorse.
+- Configurazione in un ConfigMap; credenziali del database referenziate da un Secret creato separatamente.
+- PVC distinti per dati MySQL e contenuti WordPress, inclusi gli upload.
+- Accesso locale tramite port-forward; instradamento per hostname opzionale con Traefik Ingress.
 
-Il chart Helm deriva dal manifest Kubernetes funzionante. Usa nomi specifici della release e permette di configurare immagini, politiche di download, database, dimensioni dei volumi, risorse e nome del Secret esistente tramite i values. I file di override del laboratorio selezionano l'immagine iniziale o quella corretta.
+Ambiente testato: Ubuntu 26.04 su WSL2, Docker Desktop, Minikube 1.39.0,
+Kubernetes 1.36.1 e Helm 4.3.1. Profilo/contesto del cluster: `kiratech`.
+Vedi [architettura e diagrammi](docs/architecture.md) e [setup locale](docs/local-setup.md).
 
-Il cluster ha un solo nodo. È un laboratorio senza alta disponibilità; la sostituzione dei Pod comporta una breve interruzione.
+## Attività svolte e risultati
 
-## Ambiente
-
-Windows, Ubuntu su WSL2, Docker Desktop e Minikube.
-Profilo: kiratech. Kubernetes: v1.36.1. Helm: v4.3.1.
-
-Configurazione verificata: [docs/local-setup.md](docs/local-setup.md).
-
-## Percorso del progetto e risultati
-
-| Fase | Attività e risultato | Approfondimento |
+| Fase | Risultato | Documento |
 | --- | --- | --- |
-| 1. Deployment iniziale e credenziali | WordPress/MySQL da manifest; diagnosi di HTTP 500 e autenticazione MySQL, riproduzione con newline nelle credenziali e verifica di una nuova installazione corretta | [Caso MySQL](docs/incidents/mysql-initialization.md) |
-| 2. Persistenza | Sostituzione separata dei Pod WordPress e MySQL; articolo, immagine e volumi conservati | [Verifica](docs/persistence-test.md) |
-| 3. Patch con immagine pubblicata | Diagnosi della versione PHP e sostituzione dell'immagine: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Caso sicurezza](docs/incidents/php-security-image-update.md) |
-| 4. Patch con build propria e Helm | Analisi del Dockerfile, aggiornamento della base PHP/Apache e build; WordPress resta 7.1.3. Chart, template e values gestiscono installazione e upgrade, con contenuti e hash conservati | [Caso build e Helm](docs/incidents/php-security-custom-build.md) |
-| 5. Immagine non disponibile | Tag errato con policy Never: ErrImageNeverPull; diagnosi e recupero, inclusa la discordanza tra esito del rollback e risorse disponibili | [Incidente immagine](docs/incidents/image-not-available.md) |
-| 6. Checkout pulito | Installazione, verifiche applicative e rimozione con nuove credenziali e PVC, riutilizzando cluster e immagini | [Rapporto](docs/fresh-checkout-test.md) |
-| 7. Ingress e HTTP 503 | Traefik e accesso tramite hostname; selettore Service errato con Pod Ready, diagnosi degli endpoint e recupero senza riavvii | [Incidente Ingress](docs/incidents/ingress-service-selector.md) |
+| Deployment iniziale | Diagnosi di HTTP 500 ed errore MySQL 1045; riproduzione del fallimento di inizializzazione con credenziali contenenti newline finale e verifica di una nuova installazione corretta | [Incidente MySQL](docs/incidents/mysql-initialization.md) |
+| Persistenza | Articolo e immagine caricata conservati dopo la sostituzione separata dei Pod WordPress e MySQL | [Test di persistenza](docs/persistence-test.md) |
+| Correzione con immagine pubblicata | Sostituzione dell'immagine interessata: PHP 8.3.35 → 8.3.36; anche WordPress passa da 7.1.2 a 7.1.3 | [Incidente di sicurezza](docs/incidents/php-security-image-update.md) |
+| Build propria e Helm | Modifica della base PHP/Apache fissata nel Dockerfile, build e upgrade tramite values Helm; WordPress resta 7.1.3 e gli hash degli upload coincidono | [Incidente build e Helm](docs/incidents/php-security-custom-build.md) |
+| Immagine non disponibile | Diagnosi di ErrImageNeverPull dovuto a un tag errato con policy Never; recupero del workload e riconciliazione dello stato Helm dopo un errore segnalato dal rollback | [Incidente immagine](docs/incidents/image-not-available.md) |
+| Checkout pulito | Installazione, verifiche applicative e rimozione di un'istanza separata con nuove credenziali/PVC e cluster/immagini esistenti | [Test da checkout](docs/fresh-checkout-test.md) |
+| Instradamento Ingress | Diagnosi di HTTP 503 con Pod Ready: un selettore Service non individuava backend. La correzione ha ripristinato l'accesso senza riavviare i Pod | [Incidente Ingress](docs/incidents/ingress-service-selector.md) |
 
-I due percorsi di patch fanno parte del troubleshooting di sicurezza e sono
-inclusi nel runbook, insieme ai casi MySQL, immagine assente e Ingress.
+I due casi di sicurezza affrontano lo stesso problema PHP analizzato con
+percorsi di correzione diversi. Il runbook comprende tutti e cinque i casi
+di troubleshooting.
 
-## Orientarsi nella documentazione
+## Utilizzare il progetto
 
-| Obiettivo | Punto di ingresso |
+L'installazione richiede Bash, Git, Python 3, Docker, kubectl, Minikube e Helm.
+Avviare Docker Desktop prima di eseguire i comandi da WSL.
+
+| Obiettivo | Istruzioni |
 | --- | --- |
-| Capire componenti e flussi | [Architettura e diagrammi](docs/architecture.md) |
-| Installare il progetto | [Guida di installazione](docs/delivery-workflow.md) |
-| Presentare il progetto | [Dimostrazione passo per passo](docs/demo.md) |
-| Diagnosticare e correggere un problema | [Runbook L2: cinque casi](docs/runbook.md) |
-| Riprodurre i laboratori e consultare le evidenze | [Mappa completa della documentazione](docs/README.md) |
-| Valutare le proposte e il metodo | [Krateo](docs/krateo-proposal.md), [pipeline proposta](docs/delivery-workflow.md#proposed-cicd-workflow), [utilizzo dell'IA](docs/ai-usage.md) |
+| Clonare, verificare gli strumenti e installare | [Punto di ingresso](docs/delivery-workflow.md); [laboratorio con immagini proprie](labs/security-build/README.md) per build/caricamento, credenziali, installazione e upgrade |
+| Verificare o presentare | [Guida alla dimostrazione](docs/demo.md), inclusi accesso e controlli del runtime; la sequenza completa non è stata provata |
+| Diagnosticare un problema | [Runbook L2](docs/runbook.md): MySQL, correzione con immagine pubblicata, build propria, immagine assente e Ingress |
+| Configurare Ingress | [Laboratorio Traefik e instradamento](labs/ingress/README.md) |
+| Rimuovere un'installazione | [Rimozione e perdita dei dati](labs/security-build/README.md#removal-and-data-loss); [rimozione verificata](docs/fresh-checkout-test.md#removal) |
+| Consultare tutti i documenti | [Mappa della documentazione](docs/README.md) e [indice delle evidenze](docs/evidence/README.md) |
 
-Il manifest iniziale è in [k8s/](k8s/stack.yaml); il packaging riutilizzabile
-è in [charts/](charts/kiratech-wordpress/). I laboratori sono in labs/,
-le procedure e i rapporti in docs/, gli output registrati nella [guida alle evidenze](docs/evidence/README.md).
+Struttura: [manifest iniziale](k8s/stack.yaml), [chart Helm](charts/kiratech-wordpress/),
+[laboratori](labs/) e [documentazione](docs/README.md).
 
-## Installazione da zero
+## Credenziali, dati e limiti
 
-Iniziare dalla [guida di installazione e delivery](docs/delivery-workflow.md).
-Il documento rimanda alla procedura completa del laboratorio e distingue
-il flusso manuale eseguito dalla pipeline CI/CD proposta.
+File di credenziali e backup restano in `.local/`, esclusa da Git.
+I values contengono il nome del Secret, non le password. Modificare un Secret
+non cambia le password di un database MySQL già inizializzato; vedi la
+[procedura di aggiornamento della configurazione](docs/runbook.md#configuration-updates-and-running-pods).
 
-## Riprendere l'installazione esistente
+- Laboratorio a nodo singolo con storage locale e interruzioni dovute a Recreate. Eliminare PVC o cluster può distruggere i dati.
+- I controlli di sicurezza hanno valutato le versioni e verificato il comportamento applicativo; nessun exploit è stato eseguito e l'aggiornamento non dimostra l'assenza di altre vulnerabilità. L'advisory PHP complementare del 23 ottobre resta da valutare.
+- Ripristino dei backup, alta disponibilità, TLS/Ingress pubblico e ricostruzione completa su una nuova macchina non testati. La validazione da checkout pulito ha riutilizzato immagini e cluster; non si dichiara una riproducibilità delle build identica byte per byte.
+- [Integrazione Krateo](docs/krateo-proposal.md) e [CI/CD](docs/delivery-workflow.md#proposed-cicd-workflow) sono proposte, non integrazioni implementate.
 
-Avviare Docker Desktop e verificare l'accesso a Docker da Ubuntu.
-Dalla radice del repository:
+I rapporti dettagliati conservano ambito, evidenze e limiti di ogni test.
 
-    minikube start --profile kiratech
-    kubectl --context=kiratech --namespace=wordpress get pods,pvc
-    kubectl --context=kiratech --namespace=wordpress port-forward service/wordpress 8080:80
+## Supporto dell'IA e fonti
 
-Aprire http://localhost:8080. Lasciare il port-forward attivo; Ctrl+C chiude il tunnel.
-
-Per il laboratorio di sicurezza, in un terminale separato:
-
-    kubectl --context=kiratech --namespace=wordpress-security port-forward service/wordpress 8082:80
-
-Aprire http://localhost:8082. Il laboratorio attualmente usa l'immagine corretta.
-
-Per il laboratorio Helm con immagini personalizzate, in un terminale separato:
-
-    helm list --kube-context kiratech -n wordpress-build
-    kubectl --context=kiratech -n wordpress-build get deployments,pods,pvc
-    kubectl --context=kiratech -n wordpress-build port-forward service/patch-lab-wordpress 8083:80
-
-Aprire http://localhost:8083; l'amministrazione è su http://localhost:8083/wp-admin/.
-All'ultima verifica, questa release usava l'immagine personalizzata con PHP 8.3.36.
-
-Questi comandi riprendono installazioni esistenti. La [guida del laboratorio personalizzato](labs/security-build/README.md) contiene istruzioni di build, installazione da zero, backup, aggiornamento, verifica e rimozione. Installazione e rimozione da un checkout pulito sono state verificate riutilizzando le immagini esistenti (vedi [rapporto](docs/fresh-checkout-test.md)); non ripetere l'inizializzazione delle credenziali su un database esistente.
-
-## Laboratorio Ingress opzionale
-
-La [guida del laboratorio Ingress](labs/ingress/README.md) descrive
-l'installazione di Traefik, l'accesso tramite hostname e un ulteriore
-incidente di instradamento.
-
-- WordPress era Ready, ma un selettore errato del Service causava HTTP 503.
-- L'ispezione degli EndpointSlice e l'accesso diretto isolavano il problema.
-- Correggere il selettore ripristinava HTTP 200 senza riavviare i Pod.
-- Uno script riutilizzabile verifica lo stato HTTP e il contenuto atteso.
-
-## Credenziali e dati
-
-Credenziali e backup sono conservati in .local/, esclusa da Git.
-Modificare un Secret non modifica le password degli account MySQL già esistenti.
-
-L'installazione principale conserva le credenziali originali dopo la riparazione manuale. La prova di installazione nuova ed entrambi i laboratori di sicurezza usano credenziali senza newline finale. Il laboratorio Helm usa file di credenziali dedicati e un Secret nel namespace wordpress-build. I values contengono il nome del Secret, non le password.
-
-Lo storage è locale al nodo Minikube. Eliminare PVC o cluster può comportare perdita di dati.
-
-## Limiti delle verifiche
-
-- Nessun exploit eseguito e nessuna esecuzione remota di codice dimostrata.
-- Ripristino dei backup non testato. Nel caso dell'immagine non disponibile, il rollback ha ripristinato le risorse Kubernetes ma Helm ha segnalato un errore; un successivo upgrade ha completato il recupero.
-- Il log post-aggiornamento esaminato nel laboratorio con immagini pubblicate è un campione di 60 righe.
-- L'aggiornamento non garantisce l'assenza di altre vulnerabilità.
-- L'advisory PHP complementare del 23 ottobre resta un approfondimento pendente.
-- Installazione e rimozione da checkout pulito verificate usando immagini e cluster esistenti. Non sono stati ripetuti la build delle immagini e tutti i laboratori.
-- Le build personalizzate usano basi fissate tramite digest, ma i download esterni dei pacchetti impediscono di dichiarare una riproducibilità identica byte per byte.
-- Il laboratorio personalizzato documenta una normalizzazione del formato LF eseguita dopo le prove di deployment.
-
-## Preparazione della dimostrazione
-
-Seguire la [guida alla dimostrazione](docs/demo.md) per comandi, risultati attesi,
-una piccola modifica reversibile e la distinzione tra controlli dal vivo ed evidenze registrate.
-La guida è una procedura; la nuova sequenza non è stata eseguita come prova completa.
-
-## Utilizzo dell'IA
-
-L'IA ha supportato spiegazioni, analisi delle fonti, adattamento del Dockerfile, preparazione dei manifest e del chart Helm, comandi diagnostici e documentazione. I comandi sono stati eseguiti manualmente e le conclusioni verificate usando output reali e advisory ufficiali.
-
-Il [registro dell'utilizzo dell'IA e delle verifiche manuali](docs/ai-usage.md) descrive il supporto ricevuto, i controlli effettuati e i limiti rimanenti. Le attività non eseguite non sono presentate come testate.
-
-## Origine del software
+L'IA ha supportato spiegazioni, analisi, configurazione, comandi e documentazione.
+I comandi sono stati eseguiti manualmente e i risultati verificati con output
+reali, osservazioni nel browser e advisory ufficiali. Il [registro dell'utilizzo
+dell'IA](docs/ai-usage.md) descrive assistenza, correzioni e limiti delle verifiche.
 
 - Mirror del codice applicativo: https://github.com/WordPress/WordPress
-- Packaging dell'immagine: https://github.com/docker-library/wordpress
-- Esempio Kubernetes adattato: https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
-
-Le modifiche riguardano configurazione, deployment, verifiche e procedure operative. Non è stata sviluppata una nuova applicazione WordPress.
+- Packaging dell'immagine Docker: https://github.com/docker-library/wordpress
+- Esempio di deployment adattato: https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
+- [Riferimenti completi](docs/sources.md).
